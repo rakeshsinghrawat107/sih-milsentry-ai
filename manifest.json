@@ -1,0 +1,12 @@
+{
+  "name": "MailSentry AI",
+  "short_name": "MailSentry",
+  "description": "India's autonomous forensic email intelligence platform — SIH 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a16",
+  "theme_color": "#00d4ff",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

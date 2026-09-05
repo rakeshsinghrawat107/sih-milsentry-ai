@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MailSentry AI — Forensic Email Intelligence Platform | SIH 2026</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
   <meta name="description" content="MailSentry AI is India's autonomous forensic email intelligence platform for SIH 2026 — featuring STRAD physics, BSA 2023 chain of custody, CERT-In dispatch, and D3 threat graphs.">
   <meta name="keywords" content="MailSentry AI, SIH 2026, email forensics, CERT-In, BSA 2023, phishing detection, India cybersecurity">
 
@@ -57,6 +59,9 @@
         </a></li>
         <li><a class="nav-item" data-tab="dispatch" id="nav-dispatch">
           <i class="fa-solid fa-paper-plane"></i><span>CERT-In &amp; I4C Dispatch</span>
+        </a></li>
+        <li><a class="nav-item" href="lab.html" target="_blank" id="nav-lab">
+          <i class="fa-solid fa-flask-vial"></i><span>Quishing Lab &amp; Sandbox</span>
         </a></li>
       </ul>
 
@@ -417,6 +422,15 @@
     </main>
   </div><!-- /.app-container -->
 
+  <!-- Particle Canvas Background -->
+  <canvas id="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35;"></canvas>
+
+  <!-- Threat Feed Ticker -->
+  <div id="threat-ticker" style="position:fixed;bottom:0;left:var(--sidebar-w);right:0;height:26px;background:rgba(5,10,22,0.95);border-top:1px solid rgba(0,212,255,0.13);display:flex;align-items:center;overflow:hidden;z-index:200;">
+    <div style="flex-shrink:0;padding:0 12px;font-size:0.62rem;font-weight:800;letter-spacing:1px;color:var(--red-fraud);font-family:var(--font-mono);border-right:1px solid rgba(255,34,68,0.3);margin-right:12px;">INDIA CYBER THREAT FEED</div>
+    <div id="ticker-track" style="display:flex;gap:0;white-space:nowrap;animation:ticker-scroll 40s linear infinite;"></div>
+  </div>
+
   <!-- CDN Libraries -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -433,5 +447,83 @@
   <script src="js/utils/blockchain.js"></script>
   <script src="js/utils/audio.js"></script>
   <script src="js/app.js"></script>
+  <script>
+  // ── PARTICLE BACKGROUND ENGINE ────────────────────────────────
+  (function(){
+    const canvas = document.getElementById('particle-canvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const COLORS = ['rgba(0,212,255,', 'rgba(0,255,136,', 'rgba(168,85,247,'];
+    for(let i=0; i<55; i++) particles.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.5+0.3,
+      vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+      col: COLORS[Math.floor(Math.random()*COLORS.length)],
+      alpha: Math.random()*0.5+0.1
+    });
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      particles.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0) p.x=W; if(p.x>W) p.x=0;
+        if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.col+p.alpha+')';
+        ctx.fill();
+      });
+      // Draw connecting lines for nearby particles
+      particles.forEach((a,i)=>{
+        particles.slice(i+1).forEach(b=>{
+          const d=Math.hypot(a.x-b.x,a.y-b.y);
+          if(d<120){
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+            ctx.strokeStyle='rgba(0,212,255,'+(0.04*(1-d/120))+')';
+            ctx.lineWidth=0.5;
+            ctx.stroke();
+          }
+        });
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // ── THREAT TICKER ──────────────────────────────────────────────
+  (function(){
+    const feeds = [
+      '🔴 CRITICAL: SBI Cyrillic homoglyph campaign active — 185.220.101.5 [Tor Exit, Russia] — CERT-In IOC-2026-091',
+      '⚠ WARN: CEO BEC wave targeting Indian PSUs — ProtonMail relay via 185.156.73.44 [Switzerland VPN]',
+      '📷 QUISHING: GST portal QR phishing — gst-itc-verify.xyz registered 3 days ago — 45.142.122.18',
+      '🔴 HIGH: Income Tax refund advance-fee scam — Selectel relay [St. Petersburg] — I4C 1930 escalation active',
+      '⚠ WARN: WormGPT-authored BEC detected — burstiness 1.8 — GenAI fingerprint confirmed by MailSentry NLP engine',
+      '🟢 SAFE: Baseline corporate email cleared — SPF PASS | DKIM PASS | DMARC PASS — no action required',
+      '🔴 CRITICAL: STRAD anomaly — Moscow→Amsterdam→Mumbai in 0ms — physical relay masquerade confirmed',
+      '⚠ WARN: Display-name spoofing — "State Bank of India" from non-sbi domain — DMARC REJECT policy triggered',
+      '📋 IOC: Syndicate Jamtara-FinBank-2026 linked to 3 fresh campaigns — BGP blackhole initiated',
+      '🔴 CRITICAL: DKIM signature forged — cryptographic hash mismatch — chain-of-custody block sealed #BSA2023',
+    ];
+    const track = document.getElementById('ticker-track');
+    if(!track) return;
+    const joined = feeds.concat(feeds).map(f =>
+      `<span style="margin-right:80px; font-size:0.64rem; font-family:'JetBrains Mono',monospace; color:rgba(0,212,255,0.85);">${f}</span>`
+    ).join('');
+    track.innerHTML = joined;
+  })();
+  </script>
+  <style>
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  </style>
 </body>
 </html>
