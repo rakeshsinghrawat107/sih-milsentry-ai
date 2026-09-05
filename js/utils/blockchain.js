@@ -42,8 +42,22 @@ window.BlockchainVault = {
     };
 
     this.ledger.push(evidenceBlock);
+    if (window.ForensicStorage) {
+      window.ForensicStorage.saveBlock(evidenceBlock);
+    }
     if (window.AudioEngine) window.AudioEngine.blockSealed();
     return evidenceBlock;
+  },
+
+  async loadStoredLedger() {
+    if (window.ForensicStorage) {
+      const stored = await window.ForensicStorage.getAllBlocks();
+      if (stored && stored.length > 0) {
+        this.ledger = stored;
+        return stored;
+      }
+    }
+    return [];
   },
 
   async verifyLedgerIntegrity() {
@@ -83,6 +97,9 @@ window.BlockchainVault = {
   resetLedger() {
     this.ledger = [];
     this.isTampered = false;
+    if (window.ForensicStorage) {
+      window.ForensicStorage.clearAll();
+    }
   },
 
   generateBsaPanchnamaReport(evidenceBlock, parsedEmail) {

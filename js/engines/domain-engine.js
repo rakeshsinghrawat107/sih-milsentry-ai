@@ -127,5 +127,57 @@ window.DomainEngine = {
       }
     }
     return matrix[b.length][a.length];
+  },
+
+  /**
+   * Live RDAP WHOIS resolution via backend or ICANN RDAP
+   * @param {string} domain 
+   */
+  async resolveLiveWhois(domain) {
+    if (!domain) return null;
+    const cleanDomain = domain.toLowerCase().trim();
+
+    // 1. Try local backend service
+    try {
+      const resp = await fetch('http://localhost:3000/api/v1/whois/lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain: cleanDomain }),
+        signal: AbortSignal.timeout(2000)
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.success && data.whois) return data.whois;
+      }
+    } catch (e) {
+      // Backend not running
+    }
+
+    // 2. Direct RDAP fallback
+    try {
+      const resp = await fetch(`https://rdap.org/domain/${cleanDomain}`, {
+        headers: { 'Accept': 'application/rdap+json' },
+        signal: AbortSignal.timeout(3000)
+      });
+      if (resp.ok) {
+        const rdap = await resp.json();
+        const regEvent = (rdap.events || []).find(e => e.eventAction === 'registration');
+        if (regEvent && regEvent.eventDate) {
+          const regTime = new Date(regEvent.eventDate).getTime();
+          const ageDays = Math.max(0, Math.floor((Date.now() - regTime) / (1000 * 60 * 60 * 24)));
+          return {
+            domain: cleanDomain,
+            registrationDate: regEvent.eventDate,
+            domainAgeDays: ageDays,
+            isNewlyRegistered: ageDays < 30,
+            source: 'live-rdap'
+          };
+        }
+      }
+    } catch (e) {
+      // Offline fallback
+    }
+
+    return null;
   }
 };

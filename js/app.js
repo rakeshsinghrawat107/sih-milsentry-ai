@@ -157,9 +157,37 @@ document.addEventListener('DOMContentLoaded', () => {
       const nlp     = window.NlpEngine.analyzeText(parsed.subject, parsed.body, parsed.from.name);
       const headers = window.HeaderEngine.analyzeHeaders(parsed);
       const geo     = window.GeoEngine.analyzeHops(parsed.receivedHops);
+
+      // Hybrid Live IP Enrichment (queries backend or open intelligence if reachable)
+      if (window.GeoEngine?.enrichHopsWithLiveGeo) {
+        await window.GeoEngine.enrichHopsWithLiveGeo(geo.hops);
+      }
+
       const domain  = window.DomainEngine.analyzeDomain(parsed.from.domain);
       const score   = window.ScoringEngine.calculateScore(parsed, nlp, headers, geo, domain);
       const evidenceBlock = await window.BlockchainVault.sealEvidence(parsed, score, geo);
+
+      // DPDP Act 2023 Citizen PII Compliance Redaction check
+      if (window.DpdpEngine) {
+        const piiAudit = window.DpdpEngine.redactPii(parsed.body);
+        if (piiAudit.hasPii) {
+          showToast(`⚖️ ${piiAudit.complianceNote}`, 'warn', 4500);
+        }
+      }
+
+      // Persist full case docket in browser IndexedDB
+      if (window.ForensicStorage) {
+        window.ForensicStorage.saveCase({
+          id: `CASE-${Date.now()}`,
+          date: new Date().toISOString(),
+          subject: parsed.subject,
+          from: parsed.from.raw,
+          threatScore: score.finalScore,
+          threatTier: score.threatTier,
+          blockHash: evidenceBlock.blockHash,
+          bsaCode: evidenceBlock.bsaComplianceCode
+        });
+      }
 
       currentAnalysis = { parsed, nlp, headers, geo, domain, score, evidenceBlock };
       const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
@@ -526,6 +554,21 @@ RECOMMENDED FILING:
     if (window.AudioEngine) window.AudioEngine.blockSealed();
   });
 
+  document.getElementById('btn-export-vault')?.addEventListener('click', async () => {
+    if (window.ForensicStorage) {
+      const json = await window.ForensicStorage.exportVaultArchive();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MailSentry_Forensic_Vault_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Forensic Vault Archive exported successfully (JSON)', 'success');
+      if (window.AudioEngine) window.AudioEngine.buttonClick();
+    }
+  });
+
   // ── CERT-In COPY ─────────────────────────────────────────────────
   document.getElementById('btn-copy-certin')?.addEventListener('click', () => {
     const text = document.getElementById('certin-dispatch-json')?.textContent;
@@ -544,6 +587,18 @@ RECOMMENDED FILING:
 
   // ── INIT ─────────────────────────────────────────────────────────
   initLeafletMap();
+
+  // Restore persistent evidence ledger from IndexedDB on startup
+  if (window.BlockchainVault?.loadStoredLedger) {
+    window.BlockchainVault.loadStoredLedger().then(stored => {
+      if (stored && stored.length > 0) {
+        renderBlockchainLedger();
+        const statEl = document.getElementById('ledger-status');
+        if (statEl) statEl.innerHTML = `<i class="fa-solid fa-database"></i> ${stored.length} BLOCKS IN SECURE VAULT`;
+        showToast(`Persistent Vault: ${stored.length} tamper-evident blocks restored.`, 'info', 3000);
+      }
+    });
+  }
 
   // Auto-load SBI Phishing demo
   if (window.SAMPLE_EMAILS?.sbi_phish) {

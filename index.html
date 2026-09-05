@@ -87,6 +87,10 @@
           <div class="live-clock" id="live-clock">IST --:--:--</div>
         </div>
         <div class="topbar-right">
+          <div class="status-pill" id="hybrid-engine-badge" style="border-color: rgba(0, 255, 136, 0.4); background: rgba(0, 255, 136, 0.08); font-size: 0.68rem; margin-right: 6px;">
+            <i class="fa-solid fa-bolt" style="color: var(--green-safe); margin-right: 4px;"></i>
+            <span style="color: var(--green-safe); font-weight: 600;">HYBRID: LIVE &amp; OFFLINE RESILIENT</span>
+          </div>
           <button id="audio-toggle-btn" class="audio-toggle active" title="Toggle tactical audio">
             <i class="fa-solid fa-volume-high" id="audio-icon"></i>
             <span id="audio-label">AUDIO ON</span>
@@ -362,6 +366,7 @@
                 <button id="btn-tamper-demo" class="btn btn-danger btn-sm"><i class="fa-solid fa-bomb"></i> Simulate Tampering</button>
                 <button id="btn-print-panchnama" class="btn btn-amber btn-sm"><i class="fa-solid fa-print"></i> Print Certificate</button>
                 <button id="btn-download-panchnama" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> Download .txt</button>
+                <button id="btn-export-vault" class="btn btn-sm" style="border-color:var(--cyan-glow); color:var(--cyan-glow);"><i class="fa-solid fa-file-export"></i> Export Vault JSON</button>
               </div>
             </div>
             <pre id="panchnama-report-content" class="panchnama-report">Run forensic analysis to generate BSA 2023 E-Panchnama certificate.</pre>
@@ -387,7 +392,10 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title"><i class="fa-solid fa-building-shield"></i><span>CERT-In Section 70B Incident Report</span></div>
-                <button id="btn-copy-certin" class="btn btn-primary btn-sm"><i class="fa-solid fa-copy"></i> Copy JSON</button>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <span class="tag tag-green" style="font-size:0.62rem;"><i class="fa-solid fa-user-shield"></i> DPDP Act 2023 Masked</span>
+                  <button id="btn-copy-certin" class="btn btn-primary btn-sm"><i class="fa-solid fa-copy"></i> Copy JSON</button>
+                </div>
               </div>
               <pre id="certin-dispatch-json" class="dispatch-json">Run forensic analysis to generate CERT-In incident dispatch JSON.</pre>
             </div>
@@ -439,11 +447,13 @@
   <script src="js/data/sample-emails.js"></script>
   <script src="js/engines/parser.js"></script>
   <script src="js/engines/nlp-engine.js"></script>
+  <script src="js/engines/dpdp-engine.js"></script>
   <script src="js/engines/header-engine.js"></script>
   <script src="js/engines/geo-engine.js"></script>
   <script src="js/engines/domain-engine.js"></script>
   <script src="js/engines/scoring-engine.js"></script>
   <script src="js/engines/graph-engine.js"></script>
+  <script src="js/utils/storage.js"></script>
   <script src="js/utils/blockchain.js"></script>
   <script src="js/utils/audio.js"></script>
   <script src="js/app.js"></script>

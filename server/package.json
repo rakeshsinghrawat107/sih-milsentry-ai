@@ -1,0 +1,31 @@
+{
+  "name": "mailsentry-ai-backend",
+  "version": "2.0.0",
+  "description": "Enterprise Backend API Service for MailSentry AI — CERT-In, I4C & Law Enforcement Deployment",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "cybersecurity",
+    "forensics",
+    "cert-in",
+    "i4c",
+    "bsa-2023",
+    "email-security",
+    "spf",
+    "dkim",
+    "dmarc"
+  ],
+  "author": "MailSentry AI National Cyber Defence Initiative",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "helmet": "^7.1.0"
+  }
+}

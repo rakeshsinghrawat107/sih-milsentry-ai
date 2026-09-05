@@ -97,6 +97,78 @@ window.GeoEngine = {
     };
   },
 
+  /**
+   * Hybrid live IP resolution: Attempts backend API or open endpoint, falls back to offline DB
+   * @param {string} ip 
+   */
+  async resolveIpLive(ip) {
+    if (!ip) return null;
+    if (this.geoDatabase[ip]) return this.geoDatabase[ip];
+
+    // 1. Try local backend server if reachable
+    try {
+      const resp = await fetch('http://localhost:3000/api/v1/ip/lookup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip }),
+        signal: AbortSignal.timeout(2000)
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.success && data.geo) {
+          this.geoDatabase[ip] = data.geo;
+          return data.geo;
+        }
+      }
+    } catch (e) {
+      // Backend not running or timeout — try direct public endpoint
+    }
+
+    // 2. Direct public endpoint fallback
+    try {
+      const resp = await fetch(`https://ipwhois.app/json/${ip}`, { signal: AbortSignal.timeout(2500) });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.success !== false) {
+          const geo = {
+            country: data.country || 'Unknown',
+            city: data.city || 'Unknown',
+            lat: parseFloat(data.latitude) || 20.0,
+            lng: parseFloat(data.longitude) || 78.0,
+            isp: `${data.isp || 'ISP'} (${data.asn || 'AS?'})`,
+            isTor: (data.isp || '').toLowerCase().includes('tor'),
+            isVpn: (data.isp || '').toLowerCase().includes('vpn') || (data.isp || '').toLowerCase().includes('hosting'),
+            abuseScore: (data.isp || '').toLowerCase().includes('hosting') ? 60 : 15,
+            source: 'live-public-api'
+          };
+          this.geoDatabase[ip] = geo;
+          return geo;
+        }
+      }
+    } catch (e) {
+      // Offline fallback
+    }
+
+    return this.defaultGeo;
+  },
+
+  /**
+   * Asynchronously enrich hops with live IP data when connected
+   * @param {Array} hops 
+   */
+  async enrichHopsWithLiveGeo(hops) {
+    if (!hops || hops.length === 0) return hops;
+    await Promise.all(hops.map(async hop => {
+      if (!this.geoDatabase[hop.ip] || this.geoDatabase[hop.ip].source === 'offline-fallback') {
+        const liveGeo = await this.resolveIpLive(hop.ip);
+        if (liveGeo) {
+          Object.assign(hop, liveGeo);
+        }
+      }
+    }));
+    return hops;
+  },
+
   calculateHaversine(lat1, lon1, lat2, lon2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
