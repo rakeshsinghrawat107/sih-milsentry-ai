@@ -1,0 +1,25 @@
+# Git
+*.log
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if ever needed)
+node_modules/
+npm-debug.log*
+dist/
+.env
+
+# Artifacts
+*.zip
+*.tar.gz

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MailSentry AI — Forensic Email Intelligence Platform | SIH 2026</title>
+  <meta name="description" content="MailSentry AI is India's autonomous forensic email intelligence platform for SIH 2026 — featuring STRAD physics, BSA 2023 chain of custody, CERT-In dispatch, and D3 threat graphs.">
+  <meta name="keywords" content="MailSentry AI, SIH 2026, email forensics, CERT-In, BSA 2023, phishing detection, India cybersecurity">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Leaflet Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <div class="app-container">
+
+    <!-- ── LEFT SIDEBAR ─────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <div class="brand-icon">
+          <i class="fa-solid fa-shield-halved" style="color:#000;"></i>
+        </div>
+        <div>
+          <div class="brand-title">MailSentry AI</div>
+          <div class="brand-badge">SIH 2026 GRAND FINALE</div>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="nav-item active" data-tab="dashboard" id="nav-dashboard">
+          <i class="fa-solid fa-gauge-high"></i><span>SOC Dashboard</span>
+        </a></li>
+        <li><a class="nav-item" data-tab="analyzer" id="nav-analyzer">
+          <i class="fa-solid fa-magnifying-glass-chart"></i><span>Email Forensic Triage</span>
+        </a></li>
+        <li><a class="nav-item" data-tab="geomap" id="nav-geomap">
+          <i class="fa-solid fa-earth-americas"></i><span>Geo Trace &amp; STRAD</span>
+        </a></li>
+        <li><a class="nav-item" data-tab="graph" id="nav-graph">
+          <i class="fa-solid fa-diagram-project"></i><span>Threat Identity Graph</span>
+        </a></li>
+        <li><a class="nav-item" data-tab="blockchain" id="nav-blockchain">
+          <i class="fa-solid fa-link"></i><span>BSA 2023 Evidence Vault</span>
+        </a></li>
+        <li><a class="nav-item" data-tab="dispatch" id="nav-dispatch">
+          <i class="fa-solid fa-paper-plane"></i><span>CERT-In &amp; I4C Dispatch</span>
+        </a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div>NATIONAL COMPLIANCE</div>
+        <div class="certin-badge">
+          <i class="fa-solid fa-check-double"></i>
+          <span>BSA 2023 Sec 65B Certified</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ─────────────────────────────────── -->
+    <main class="main-content">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span>SYSTEM ACTIVE • INDIA CYBER SHIELD</span>
+          </div>
+          <div class="live-clock" id="live-clock">IST --:--:--</div>
+        </div>
+        <div class="topbar-right">
+          <button id="audio-toggle-btn" class="audio-toggle active" title="Toggle tactical audio">
+            <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+            <span id="audio-label">AUDIO ON</span>
+          </button>
+          <a href="presentation.html" target="_blank" class="btn btn-ppt">
+            <i class="fa-solid fa-person-chalkboard"></i>
+            <span>Pitch Deck</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- ── TAB CONTENT PANES ────────────────────────── -->
+      <div class="content-body">
+
+        <!-- ══ TAB 1: SOC DASHBOARD ══════════════════════════════════ -->
+        <div id="tab-dashboard" class="tab-pane active fade-in">
+
+          <!-- Stat Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="stat-info">
+                <h3 id="stat-threat-score">—</h3>
+                <p>Live Threat Level</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon cyan"><i class="fa-solid fa-bolt"></i></div>
+              <div class="stat-info">
+                <h3>0.42s</h3>
+                <p>Forensic Inference Time</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon amber"><i class="fa-solid fa-network-wired"></i></div>
+              <div class="stat-info">
+                <h3 id="stat-hops">—</h3>
+                <p>Relay Hops Extracted</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-shield-check"></i></div>
+              <div class="stat-info">
+                <h3>Sec 65B</h3>
+                <p>BSA Legal Status</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2col">
+            <!-- Threat Dial -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-chart-pie"></i><span>Autonomous Threat Assessment</span></div>
+                <a id="mitre-badge-link" class="mitre-badge" href="#" target="_blank">
+                  <i class="fa-solid fa-crosshairs"></i>
+                  <span id="mitre-tag-text">MITRE ATT&CK —</span>
+                </a>
+              </div>
+              <div class="threat-meter-container">
+                <div id="threat-score-dial" class="threat-score-dial safe">
+                  <div id="threat-score-num" class="score-num" style="color:var(--green-safe);">—</div>
+                  <div id="threat-score-label" class="score-label">RUN ANALYSIS</div>
+                </div>
+                <p id="threat-summary-text" style="color:var(--text-secondary); text-align:center; margin-top:14px; font-size:0.8rem; padding:0 10px;">
+                  Select a demo scenario or paste a raw email in the Triage tab to begin.
+                </p>
+              </div>
+              <div class="auth-badges-grid">
+                <div id="badge-spf" class="auth-badge neutral">
+                  <div class="protocol-name">SPF</div>
+                  <div class="protocol-status">—</div>
+                </div>
+                <div id="badge-dkim" class="auth-badge neutral">
+                  <div class="protocol-name">DKIM</div>
+                  <div class="protocol-status">—</div>
+                </div>
+                <div id="badge-dmarc" class="auth-badge neutral">
+                  <div class="protocol-name">DMARC</div>
+                  <div class="protocol-status">—</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Signal Breakdown -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-list-check"></i><span>Multi-Vector Forensic Signal Breakdown</span></div>
+              </div>
+              <div style="max-height: 320px; overflow-y: auto;">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Severity</th>
+                      <th>Forensic Signal</th>
+                      <th>Weight</th>
+                    </tr>
+                  </thead>
+                  <tbody id="signals-table-body">
+                    <tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:24px;">No analysis yet — run forensic triage</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extracted Metadata & Evidence Anchoring -->
+          <div class="grid-2col" style="margin-top:14px;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-id-card"></i>Extracted Metadata</div>
+              </div>
+              <table class="custom-table">
+                <tr><td style="color:var(--text-muted)">Sender (From)</td><td id="res-from" style="color:var(--cyan-glow);">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Subject</td><td id="res-subject">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Originating Node</td><td id="res-origin-ip" style="color:var(--red-fraud);">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Threat Intent</td><td id="res-threat-cat">—</td></tr>
+                <tr><td style="color:var(--text-muted)">AI/WormGPT</td><td id="res-ai-flag">—</td></tr>
+                <tr><td style="color:var(--text-muted)">URLs Detected</td><td id="res-urls">—</td></tr>
+              </table>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-shield-halved"></i>Evidence Anchoring</div>
+              </div>
+              <table class="custom-table">
+                <tr><td style="color:var(--text-muted)">Blockchain Root</td><td id="res-blockchain-hash" style="word-break:break-all; color:var(--green-safe); font-size:0.7rem; font-family:var(--font-mono);">—</td></tr>
+                <tr><td style="color:var(--text-muted)">BSA 2023 Code</td><td id="res-bsa-ref" style="color:var(--amber-warn); font-family:var(--font-mono);">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Admissibility</td><td id="res-admissibility" style="color:var(--green-safe);">—</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB 2: EMAIL FORENSIC TRIAGE ══════════════════════════ -->
+        <div id="tab-analyzer" class="tab-pane fade-in">
+
+          <!-- Ingestion Console -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-envelope-open-text"></i><span>RFC 5322 Raw Email Ingestion Console</span></div>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <button id="btn-clear" class="btn btn-amber btn-sm"><i class="fa-solid fa-xmark"></i> Clear</button>
+                <button id="btn-analyze-now" class="btn btn-primary">
+                  <i class="fa-solid fa-bolt"></i><span>Run Deep Analysis</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Drag & Drop zone -->
+            <div id="eml-drop-zone" class="drop-zone" style="margin:12px 16px 0; padding:14px;">
+              <i class="fa-solid fa-file-arrow-up"></i>
+              Drag &amp; drop a <strong>.eml</strong> file here, or click to browse
+              <input type="file" id="eml-file-input" accept=".eml,.txt" style="display:none;">
+            </div>
+
+            <div class="sample-bar" style="margin-top:10px;">
+              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">DEMO SCENARIOS:</span>
+              <button class="sample-btn" data-sample="sbi_phish">🚨 SBI KYC Phishing</button>
+              <button class="sample-btn" data-sample="bec_ceo">💼 CEO Wire Fraud (BEC)</button>
+              <button class="sample-btn" data-sample="quishing_qr">📷 GST QR Quishing</button>
+              <button class="sample-btn" data-sample="it_refund_spoof">💰 IT Refund Scam</button>
+              <button class="sample-btn" data-sample="legitimate_mail">✅ Clean Email</button>
+            </div>
+
+            <div style="padding:12px 16px 16px;">
+              <textarea id="raw-email-input" class="raw-textarea" placeholder="Paste complete RFC 5322 email with headers here, or drag-and-drop a .eml file above..."></textarea>
+            </div>
+          </div>
+
+          <!-- Analysis Results Row -->
+          <div class="grid-3col">
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-fingerprint"></i>Authentication Anomalies</div></div>
+              <div id="header-anomaly-list" style="padding:12px 16px; font-size:0.76rem; color:var(--text-secondary); min-height:80px;">
+                Run analysis to see anomalies.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-globe"></i>Domain Intelligence</div></div>
+              <table class="custom-table">
+                <tr><td style="color:var(--text-muted)">Sender Domain</td><td id="di-domain" style="font-family:var(--font-mono);">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Homoglyph</td><td id="di-homoglyph">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Lookalike Target</td><td id="di-lookalike">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Domain Age</td><td id="di-age">—</td></tr>
+              </table>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-brain"></i>NLP &amp; Stylometry</div></div>
+              <table class="custom-table">
+                <tr><td style="color:var(--text-muted)">Urgency Score</td><td id="nlp-urgency">—</td></tr>
+                <tr><td style="color:var(--text-muted)">BEC Score</td><td id="nlp-bec">—</td></tr>
+                <tr><td style="color:var(--text-muted)">Burstiness</td><td id="nlp-burst">—</td></tr>
+                <tr><td style="color:var(--text-muted)">AI Fingerprint</td><td id="nlp-ai">—</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- Suspicious URLs -->
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header"><div class="card-title"><i class="fa-solid fa-link"></i>Extracted URLs &amp; Payload Analysis</div></div>
+            <div id="url-list-container" style="padding:12px 16px; min-height:48px;">
+              <span style="color:var(--text-muted); font-size:0.78rem;">No URLs detected yet.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB 3: GEO TRACE & STRAD ═══════════════════════════════ -->
+        <div id="tab-geomap" class="tab-pane fade-in">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-route"></i><span>Geospatial SMTP Relay Path Visualizer (Leaflet.js)</span></div>
+              <div style="display:flex; gap:8px;">
+                <span class="tag tag-red"><i class="fa-solid fa-circle" style="font-size:7px;"></i>Origin (Threat)</span>
+                <span class="tag tag-cyan"><i class="fa-solid fa-circle" style="font-size:7px;"></i>Relay Hops</span>
+              </div>
+            </div>
+            <div id="geo-map" class="cyber-grid-bg"></div>
+          </div>
+
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i><span>STRAD: Spatio-Temporal Relay Anomaly Detection</span></div>
+              <span class="tag tag-purple">Physics Engine v2.1</span>
+            </div>
+            <div style="max-height:220px; overflow-y:auto;">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Origin Relay</th>
+                    <th>Destination Hop</th>
+                    <th>Distance</th>
+                    <th>Min Transit (c)</th>
+                    <th>Anomaly Flag</th>
+                  </tr>
+                </thead>
+                <tbody id="strad-table-body">
+                  <tr><td colspan="5" style="color:var(--text-muted); text-align:center; padding:20px;">Run analysis to compute STRAD physics</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB 4: THREAT IDENTITY GRAPH ════════════════════════════ -->
+        <div id="tab-graph" class="tab-pane fade-in">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-circle-nodes"></i><span>Threat Syndicate &amp; Infrastructure Correlation Graph (D3.js)</span></div>
+              <div style="display:flex; gap:8px;">
+                <span class="tag tag-red">● Email</span>
+                <span class="tag tag-cyan">● Domain</span>
+                <span class="tag tag-amber">● IP Node</span>
+                <span class="tag tag-orange">⚠ Syndicate</span>
+              </div>
+            </div>
+            <p style="font-size:0.76rem; color:var(--text-muted); padding:8px 16px 0;">
+              Hover nodes for threat intelligence. Drag to rearrange. Force-directed layout correlates threat actors, relay infrastructure, and campaign clusters.
+            </p>
+            <div id="identity-graph"></div>
+          </div>
+        </div>
+
+        <!-- ══ TAB 5: BSA 2023 EVIDENCE VAULT ══════════════════════════ -->
+        <div id="tab-blockchain" class="tab-pane fade-in">
+
+          <!-- Action Bar -->
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-file-shield"></i><span>Court-Admissible E-Panchnama Certificate (BSA 2023)</span></div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button id="btn-verify-ledger" class="btn btn-green btn-sm"><i class="fa-solid fa-check-double"></i> Verify Ledger</button>
+                <button id="btn-tamper-demo" class="btn btn-danger btn-sm"><i class="fa-solid fa-bomb"></i> Simulate Tampering</button>
+                <button id="btn-print-panchnama" class="btn btn-amber btn-sm"><i class="fa-solid fa-print"></i> Print Certificate</button>
+                <button id="btn-download-panchnama" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> Download .txt</button>
+              </div>
+            </div>
+            <pre id="panchnama-report-content" class="panchnama-report">Run forensic analysis to generate BSA 2023 E-Panchnama certificate.</pre>
+          </div>
+
+          <!-- Ledger -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-cubes"></i><span>Immutable Proof-of-Authority Blockchain Ledger</span></div>
+              <span id="ledger-status" class="tag tag-green"><i class="fa-solid fa-lock"></i> LEDGER SEALED</span>
+            </div>
+            <div id="blockchain-timeline" class="blockchain-timeline">
+              <div style="color:var(--text-muted); text-align:center; padding:24px; font-size:0.78rem;">Ledger is empty — run forensic analysis to seal evidence blocks.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ TAB 6: CERT-In & I4C DISPATCH ═══════════════════════════ -->
+        <div id="tab-dispatch" class="tab-pane fade-in">
+
+          <div class="grid-2col">
+            <!-- CERT-In JSON Report -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-building-shield"></i><span>CERT-In Section 70B Incident Report</span></div>
+                <button id="btn-copy-certin" class="btn btn-primary btn-sm"><i class="fa-solid fa-copy"></i> Copy JSON</button>
+              </div>
+              <pre id="certin-dispatch-json" class="dispatch-json">Run forensic analysis to generate CERT-In incident dispatch JSON.</pre>
+            </div>
+
+            <!-- I4C FIR Docket -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-file-pen"></i><span>I4C 1930 National Helpline FIR Docket</span></div>
+              </div>
+              <div style="padding:14px; font-size:0.78rem; color:var(--text-secondary);">
+                <p style="margin-bottom:10px;">Auto-generated complaint docket for filing on <a href="https://cybercrime.gov.in" target="_blank" style="color:var(--cyan-glow);">cybercrime.gov.in</a> and the I4C 1930 National Helpline.</p>
+                <pre id="i4c-fir-docket" style="background:#02050e; color:#ffaa00; padding:14px; border-radius:6px; font-family:var(--font-mono); font-size:0.7rem; overflow-x:auto; border:1px solid var(--border-subtle); white-space:pre-wrap;">Run forensic analysis to generate FIR docket.</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Automated Mitigation Playbook -->
+          <div class="card" style="margin-top:14px;">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-shield-virus"></i><span>Automated Mitigation Playbook</span></div>
+              <button id="btn-copy-playbook" class="btn btn-amber btn-sm"><i class="fa-solid fa-copy"></i> Copy Rules</button>
+            </div>
+            <div style="padding:14px;">
+              <ul class="playbook-list" id="playbook-list">
+                <li class="playbook-item"><i class="fa-solid fa-ban"></i><div>Run analysis to generate automated mitigation rules (iptables, Snort/Suricata, BGP Blackhole, DNS Sinkhole)</div></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.content-body -->
+    </main>
+  </div><!-- /.app-container -->
+
+  <!-- CDN Libraries -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Application Modules -->
+  <script src="js/data/sample-emails.js"></script>
+  <script src="js/engines/parser.js"></script>
+  <script src="js/engines/nlp-engine.js"></script>
+  <script src="js/engines/header-engine.js"></script>
+  <script src="js/engines/geo-engine.js"></script>
+  <script src="js/engines/domain-engine.js"></script>
+  <script src="js/engines/scoring-engine.js"></script>
+  <script src="js/engines/graph-engine.js"></script>
+  <script src="js/utils/blockchain.js"></script>
+  <script src="js/utils/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
