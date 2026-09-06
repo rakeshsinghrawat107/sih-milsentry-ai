@@ -268,6 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scoreLabel) scoreLabel.textContent = score.threatTier;
     if (summaryText) summaryText.textContent = score.summaryText;
 
+    // Update SVG radial gauge ring
+    const ring = document.getElementById('threat-gauge-progress');
+    if (ring) {
+      const circ = 427;
+      const val = Math.min(100, Math.max(0, score.finalScore || 0));
+      const offset = circ - (circ * val) / 100;
+      ring.style.strokeDashoffset = offset;
+      ring.style.stroke = colorMap[score.colorClass] || 'var(--cyan-glow)';
+    }
+
     // Stat tile
     setText('stat-threat-score', `${score.finalScore} / 100`);
     setText('stat-hops', `${geo.totalHops} Hops`);

@@ -12,7 +12,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -151,11 +151,17 @@
                 </a>
               </div>
               <div class="threat-meter-container">
-                <div id="threat-score-dial" class="threat-score-dial safe">
-                  <div id="threat-score-num" class="score-num" style="color:var(--green-safe);">—</div>
-                  <div id="threat-score-label" class="score-label">RUN ANALYSIS</div>
+                <div class="threat-gauge-wrapper">
+                  <svg class="threat-gauge-svg" width="160" height="160" viewBox="0 0 160 160">
+                    <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9" />
+                    <circle id="threat-gauge-progress" cx="80" cy="80" r="68" fill="none" stroke="var(--cyan-glow)" stroke-width="9" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" transform="rotate(-90 80 80)" style="transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s;" />
+                  </svg>
+                  <div id="threat-score-dial" class="threat-score-dial safe" style="position:absolute; width:100%; height:100%; border:none; box-shadow:none; background:transparent;">
+                    <div id="threat-score-num" class="score-num" style="color:var(--green-safe);">—</div>
+                    <div id="threat-score-label" class="score-label">STANDBY</div>
+                  </div>
                 </div>
-                <p id="threat-summary-text" style="color:var(--text-secondary); text-align:center; margin-top:14px; font-size:0.8rem; padding:0 10px;">
+                <p id="threat-summary-text" style="color:var(--text-secondary); text-align:center; margin-top:16px; font-size:0.82rem; max-width:380px; line-height:1.5;">
                   Select a demo scenario or paste a raw email in the Triage tab to begin.
                 </p>
               </div>
@@ -469,13 +475,13 @@
     window.addEventListener('resize', resize);
     resize();
 
-    const COLORS = ['rgba(0,212,255,', 'rgba(0,255,136,', 'rgba(168,85,247,'];
-    for(let i=0; i<55; i++) particles.push({
+    const COLORS = ['rgba(255,255,255,', 'rgba(148,163,184,', 'rgba(56,189,248,'];
+    for(let i=0; i<35; i++) particles.push({
       x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()*1.5+0.3,
-      vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+      r: Math.random()*1.2+0.4,
+      vx: (Math.random()-0.5)*0.15, vy: (Math.random()-0.5)*0.15,
       col: COLORS[Math.floor(Math.random()*COLORS.length)],
-      alpha: Math.random()*0.5+0.1
+      alpha: Math.random()*0.25+0.05
     });
 
     function draw(){
@@ -489,14 +495,14 @@
         ctx.fillStyle=p.col+p.alpha+')';
         ctx.fill();
       });
-      // Draw connecting lines for nearby particles
+      // Draw subtle connecting lines for nearby particles
       particles.forEach((a,i)=>{
         particles.slice(i+1).forEach(b=>{
           const d=Math.hypot(a.x-b.x,a.y-b.y);
-          if(d<120){
+          if(d<100){
             ctx.beginPath();
             ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle='rgba(0,212,255,'+(0.04*(1-d/120))+')';
+            ctx.strokeStyle='rgba(255,255,255,'+(0.03*(1-d/100))+')';
             ctx.lineWidth=0.5;
             ctx.stroke();
           }
@@ -507,7 +513,7 @@
     draw();
   })();
 
-  // ── THREAT TICKER ──────────────────────────────────────────────
+  // ── THREAT TICKER (Refined Executive Typography) ───────────────
   (function(){
     const feeds = [
       '🔴 CRITICAL: SBI Cyrillic homoglyph campaign active — 185.220.101.5 [Tor Exit, Russia] — CERT-In IOC-2026-091',
@@ -524,7 +530,7 @@
     const track = document.getElementById('ticker-track');
     if(!track) return;
     const joined = feeds.concat(feeds).map(f =>
-      `<span style="margin-right:80px; font-size:0.64rem; font-family:'JetBrains Mono',monospace; color:rgba(0,212,255,0.85);">${f}</span>`
+      `<span style="margin-right:70px; font-size:0.7rem; font-family:'Inter',sans-serif; font-weight:500; color:rgba(226,232,240,0.85); letter-spacing:0.01em;">${f}</span>`
     ).join('');
     track.innerHTML = joined;
   })();
