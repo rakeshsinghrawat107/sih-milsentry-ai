@@ -158,12 +158,49 @@ document.addEventListener('DOMContentLoaded', () => {
       const headers = window.HeaderEngine.analyzeHeaders(parsed);
       const geo     = window.GeoEngine.analyzeHops(parsed.receivedHops);
 
-      // Hybrid Live IP Enrichment (queries backend or open intelligence if reachable)
+      // 1. Hybrid Live IP Enrichment (queries backend or open intelligence if reachable)
       if (window.GeoEngine?.enrichHopsWithLiveGeo) {
         await window.GeoEngine.enrichHopsWithLiveGeo(geo.hops);
       }
 
+      // 2. Hybrid Live DNS Verification (detects forged Authentication-Results headers)
+      if (window.HeaderEngine?.verifyLiveDns && parsed.from?.domain) {
+        const liveDns = await window.HeaderEngine.verifyLiveDns(parsed.from.domain, geo.originatingNode?.ip);
+        if (liveDns) {
+          headers.liveDnsAudit = liveDns;
+          if (liveDns.spf && liveDns.spf.status !== 'NONE') {
+            if (headers.spfStatus === 'PASS' && liveDns.spf.status === 'FAIL') {
+              headers.anomalies.unshift(`🚨 CRITICAL: Header Forgery Detected! Header claims SPF=PASS, but Live Authoritative DNS proves SPF=FAIL for IP ${geo.originatingNode?.ip}`);
+              headers.spfStatus = 'FAIL';
+            }
+          }
+          if (liveDns.dmarc && liveDns.dmarc.policy === 'reject' && headers.dmarcStatus !== 'PASS') {
+            headers.dmarcStatus = 'FAIL';
+          }
+          if (liveDns.anomalies && liveDns.anomalies.length > 0) {
+            liveDns.anomalies.forEach(a => {
+              if (!headers.anomalies.includes(a)) headers.anomalies.push(`Live DNS: ${a}`);
+            });
+          }
+        }
+      }
+
       const domain  = window.DomainEngine.analyzeDomain(parsed.from.domain);
+
+      // 3. Hybrid Live RDAP WHOIS Domain Age Resolution
+      if (window.DomainEngine?.resolveLiveWhois && parsed.from?.domain) {
+        const liveWhois = await window.DomainEngine.resolveLiveWhois(parsed.from.domain);
+        if (liveWhois && liveWhois.domainAgeDays !== undefined) {
+          domain.domainAgeDays = liveWhois.domainAgeDays;
+          domain.isNewlyRegistered = liveWhois.isNewlyRegistered;
+          domain.registrationDate = liveWhois.registrationDate;
+          domain.whoisSource = liveWhois.source;
+          if (domain.isNewlyRegistered) {
+            domain.riskScore = Math.min(100, domain.riskScore + 25);
+          }
+        }
+      }
+
       const score   = window.ScoringEngine.calculateScore(parsed, nlp, headers, geo, domain);
       const evidenceBlock = await window.BlockchainVault.sealEvidence(parsed, score, geo);
 

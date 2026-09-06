@@ -65,5 +65,30 @@ window.HeaderEngine = {
       isDisplaySpoofed, isSuspiciousMailer,
       anomalies, authScore
     };
+  },
+
+  /**
+   * Live DNS verification via backend REST API
+   * Performs authoritative SPF TXT, DMARC, and MX lookups to detect forged Authentication-Results
+   * @param {string} domain 
+   * @param {string} originIp 
+   */
+  async verifyLiveDns(domain, originIp) {
+    if (!domain) return null;
+    try {
+      const resp = await fetch('http://localhost:3000/api/v1/dns/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain, originIp }),
+        signal: AbortSignal.timeout(2500)
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.success && data.audit) return data.audit;
+      }
+    } catch (e) {
+      // Backend not running / offline mode
+    }
+    return null;
   }
 };
