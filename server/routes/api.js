@@ -10,6 +10,8 @@ const dnsVerifier = require('../services/dnsVerifier');
 const geoResolver = require('../services/geoResolver');
 const whoisResolver = require('../services/whoisResolver');
 const certInExporter = require('../services/certInExporter');
+const geminiAnalyzer = require('../services/geminiAnalyzer');
+const virusTotalScanner = require('../services/virusTotalScanner');
 
 /**
  * Health check & platform capability discovery
@@ -24,7 +26,9 @@ router.get('/status', (req, res) => {
       'LIVE_IP_GEOLOCATION_ASN',
       'ICANN_RDAP_DOMAIN_INTELLIGENCE',
       'CERT_IN_70B_ANNEXURE1_DISPATCH',
-      'BSA_2023_EVIDENCE_ANCHORING'
+      'BSA_2023_EVIDENCE_ANCHORING',
+      'LIVE_GEMINI_AI_ANALYSIS',
+      'LIVE_VIRUSTOTAL_SCANNING'
     ],
     timestamp: new Date().toISOString()
   });
@@ -108,13 +112,30 @@ router.post('/certin/dispatch', (req, res) => {
  */
 router.post('/analyze', async (req, res) => {
   try {
-    const { domain, originIp, hops = [] } = req.body;
+    const { domain, originIp, emailData } = req.body;
+    const isLiveApiEnabled = process.env.ENABLE_LIVE_API_SCANS === 'true';
 
-    const [dnsAudit, geoOrigin, whoisData] = await Promise.all([
-      domain ? dnsVerifier.runFullDomainDnsAudit(domain, originIp) : null,
-      originIp ? geoResolver.lookupIp(originIp) : null,
-      domain ? whoisResolver.lookupDomain(domain) : null
-    ]);
+    const tasks = [
+      domain ? dnsVerifier.runFullDomainDnsAudit(domain, originIp) : Promise.resolve(null),
+      originIp ? geoResolver.lookupIp(originIp) : Promise.resolve(null),
+      domain ? whoisResolver.lookupDomain(domain) : Promise.resolve(null),
+    ];
+
+    // Live Gemini NLP AI Scan
+    if (isLiveApiEnabled && emailData && geminiAnalyzer.isConfigured()) {
+      tasks.push(geminiAnalyzer.analyzeEmailText(emailData.subject, emailData.body));
+    } else {
+      tasks.push(Promise.resolve(null));
+    }
+
+    // Live VirusTotal Scan (for URLs if provided)
+    if (isLiveApiEnabled && emailData && emailData.urls && emailData.urls.length > 0 && virusTotalScanner.isConfigured()) {
+       tasks.push(virusTotalScanner.scanUrl(emailData.urls[0]));
+    } else {
+       tasks.push(Promise.resolve(null));
+    }
+
+    const [dnsAudit, geoOrigin, whoisData, aiAnalysis, vtScan] = await Promise.all(tasks);
 
     res.json({
       success: true,
@@ -122,7 +143,9 @@ router.post('/analyze', async (req, res) => {
       liveVerification: {
         dnsAudit,
         geoOrigin,
-        whoisData
+        whoisData,
+        aiAnalysis,
+        vtScan
       }
     });
   } catch (err) {

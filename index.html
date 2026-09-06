@@ -3,543 +3,1050 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MailSentry AI — Forensic Email Intelligence Platform | SIH 2026</title>
+  <title>CYBER CONSTELLATION — Email Threat Intelligence & Forensic Investigation Platform | SIH26106</title>
+  <meta name="description" content="CYBER CONSTELLATION is India's national-level AI-powered email threat intelligence, geolocation, and digital forensics platform for SIH26106. Detect. Verify. Trace. Correlate. Investigate. Report.">
+  <meta name="keywords" content="CYBER CONSTELLATION, SIH 2026, email forensics, threat intelligence, phishing detection, India cybersecurity, SOC platform">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.json">
-  <meta name="description" content="MailSentry AI is India's autonomous forensic email intelligence platform for SIH 2026 — featuring STRAD physics, BSA 2023 chain of custody, CERT-In dispatch, and D3 threat graphs.">
-  <meta name="keywords" content="MailSentry AI, SIH 2026, email forensics, CERT-In, BSA 2023, phishing detection, India cybersecurity">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Leaflet Map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <!-- Design System -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
-  <div id="toast-container"></div>
 
-  <div class="app-container">
+<!-- Toast Notifications -->
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- ── LEFT SIDEBAR ─────────────────────────────────── -->
-    <aside class="sidebar">
-      <div class="brand-header">
-        <div class="brand-icon">
-          <i class="fa-solid fa-shield-halved" style="color:#000;"></i>
-        </div>
-        <div>
-          <div class="brand-title">MailSentry AI</div>
-          <div class="brand-badge">SIH 2026 GRAND FINALE</div>
-        </div>
+<!-- Demo Mode Banner -->
+<div class="demo-banner" id="demo-banner">
+  <i class="fa-solid fa-flask-vial"></i>
+  <span>SYNTHETIC DEMO DATA — SIH26106 Grand Finale Demonstration Mode</span>
+  <i class="fa-solid fa-flask-vial"></i>
+</div>
+
+<div class="app-container" id="app-container">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+
+    <!-- Brand -->
+    <div class="brand-header" id="sidebar-collapse-btn" title="Toggle sidebar" aria-label="Toggle sidebar">
+      <div class="brand-icon" aria-hidden="true">
+        <i class="fa-solid fa-star-of-life"></i>
       </div>
-
-      <ul class="nav-links">
-        <li><a class="nav-item active" data-tab="dashboard" id="nav-dashboard">
-          <i class="fa-solid fa-gauge-high"></i><span>SOC Dashboard</span>
-        </a></li>
-        <li><a class="nav-item" data-tab="analyzer" id="nav-analyzer">
-          <i class="fa-solid fa-magnifying-glass-chart"></i><span>Email Forensic Triage</span>
-        </a></li>
-        <li><a class="nav-item" data-tab="geomap" id="nav-geomap">
-          <i class="fa-solid fa-earth-americas"></i><span>Geo Trace &amp; STRAD</span>
-        </a></li>
-        <li><a class="nav-item" data-tab="graph" id="nav-graph">
-          <i class="fa-solid fa-diagram-project"></i><span>Threat Identity Graph</span>
-        </a></li>
-        <li><a class="nav-item" data-tab="blockchain" id="nav-blockchain">
-          <i class="fa-solid fa-link"></i><span>BSA 2023 Evidence Vault</span>
-        </a></li>
-        <li><a class="nav-item" data-tab="dispatch" id="nav-dispatch">
-          <i class="fa-solid fa-paper-plane"></i><span>CERT-In &amp; I4C Dispatch</span>
-        </a></li>
-        <li><a class="nav-item" href="lab.html" target="_blank" id="nav-lab">
-          <i class="fa-solid fa-flask-vial"></i><span>Quishing Lab &amp; Sandbox</span>
-        </a></li>
-      </ul>
-
-      <div class="sidebar-footer">
-        <div>NATIONAL COMPLIANCE</div>
-        <div class="certin-badge">
-          <i class="fa-solid fa-check-double"></i>
-          <span>BSA 2023 Sec 65B Certified</span>
-        </div>
+      <div class="brand-text">
+        <div class="brand-title">Cyber Constellation</div>
+        <div class="brand-subtitle">SIH26106 Platform</div>
       </div>
-    </aside>
+    </div>
 
-    <!-- ── MAIN CONTENT ─────────────────────────────────── -->
-    <main class="main-content">
-
-      <!-- Topbar -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <div class="status-pill">
-            <span class="status-dot"></span>
-            <span>SYSTEM ACTIVE • INDIA CYBER SHIELD</span>
-          </div>
-          <div class="live-clock" id="live-clock">IST --:--:--</div>
-        </div>
-        <div class="topbar-right">
-          <div class="status-pill" id="hybrid-engine-badge" style="border-color: rgba(0, 255, 136, 0.4); background: rgba(0, 255, 136, 0.08); font-size: 0.68rem; margin-right: 6px;">
-            <i class="fa-solid fa-bolt" style="color: var(--green-safe); margin-right: 4px;"></i>
-            <span style="color: var(--green-safe); font-weight: 600;">HYBRID: LIVE &amp; OFFLINE RESILIENT</span>
-          </div>
-          <button id="audio-toggle-btn" class="audio-toggle active" title="Toggle tactical audio">
-            <i class="fa-solid fa-volume-high" id="audio-icon"></i>
-            <span id="audio-label">AUDIO ON</span>
-          </button>
-          <a href="presentation.html" target="_blank" class="btn btn-ppt">
-            <i class="fa-solid fa-person-chalkboard"></i>
-            <span>Pitch Deck</span>
+    <!-- Main Nav -->
+    <nav>
+      <ul class="nav-links" role="list">
+        <li role="listitem">
+          <a class="nav-item" data-tab="landing" id="nav-landing" href="#" role="menuitem" aria-label="Landing page">
+            <i class="fa-solid fa-house" aria-hidden="true"></i>
+            <span>Home</span>
           </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="dashboard" id="nav-dashboard" href="#" role="menuitem" aria-label="SOC Dashboard">
+            <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="analyze" id="nav-analyze" href="#" role="menuitem" aria-label="Analyze Email">
+            <i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i>
+            <span>Investigate</span>
+          </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="cases" id="nav-cases" href="#" role="menuitem" aria-label="Case Management">
+            <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+            <span>Cases</span>
+            <span class="nav-badge" id="critical-badge" aria-label="8 critical cases">8</span>
+          </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="campaigns" id="nav-campaigns" href="#" role="menuitem" aria-label="Campaign Intelligence">
+            <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+            <span>Campaigns</span>
+          </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="evidence" id="nav-evidence" href="#" role="menuitem" aria-label="Evidence Vault">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <span>Evidence</span>
+          </a>
+        </li>
+        <li role="listitem">
+          <a class="nav-item" data-tab="reports" id="nav-reports" href="#" role="menuitem" aria-label="Report Builder">
+            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+            <span>Reports</span>
+          </a>
+        </li>
+        <li role="listitem" style="margin-top: 8px; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+          <a class="nav-item" data-tab="admin" id="nav-admin" href="#" role="menuitem" aria-label="Admin Console">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            <span>Admin</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="demo-badge" title="Demo mode active — synthetic data">
+        <i class="fa-solid fa-flask-vial" aria-hidden="true"></i>
+        <span>Demo Mode Active</span>
+      </div>
+      <button class="collapse-btn" id="collapse-btn-footer" aria-label="Collapse sidebar" title="Collapse sidebar">
+        <i class="fa-solid fa-chevron-left" id="collapse-icon"></i>
+        <span id="collapse-label">Collapse</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── TOPBAR ──────────────────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="topbar-left">
+      <!-- Mobile menu button -->
+      <button class="topbar-btn" id="mobile-menu-btn" aria-label="Open navigation menu" style="display:none;">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
+      <div class="system-status" aria-label="System status: operational">
+        <span class="status-dot" id="system-dot" aria-hidden="true"></span>
+        <span id="system-status-text">SYSTEM OPERATIONAL</span>
+      </div>
+
+      <div class="live-clock" id="live-clock" aria-live="off" aria-label="Current IST time">IST --:--:--</div>
+    </div>
+
+    <!-- Global Search -->
+    <button class="global-search" id="global-search-btn" aria-label="Open command palette (Ctrl+K)" title="Search — Ctrl+K">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <span>Search cases, IPs, domains...</span>
+      <kbd class="search-kbd" aria-hidden="true">⌃K</kbd>
+    </button>
+
+    <div class="topbar-right">
+      <button class="topbar-btn" id="notif-btn" aria-label="Notifications (3 unread)" title="Notifications">
+        <i class="fa-solid fa-bell" aria-hidden="true"></i>
+        <span class="badge" aria-hidden="true">3</span>
+      </button>
+
+      <div class="analyst-pill" id="analyst-pill" aria-label="Logged in as Security Analyst">
+        <div class="analyst-avatar" aria-hidden="true">SA</div>
+        <span>Security Analyst</span>
+        <i class="fa-solid fa-chevron-down" style="font-size:10px; opacity:0.6;" aria-hidden="true"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ────────────────────────────────────────────────── -->
+  <main class="main-content" id="main-content" role="main">
+
+    <!-- ══ LANDING — THE THREAT UNIVERSE ══════════════════════════════ -->
+    <div id="tab-landing" class="tab-pane active" role="tabpanel" aria-label="Home - Landing page">
+
+      <section class="landing-hero">
+        <!-- SIH Badge -->
+        <div class="sih-badge" aria-label="Smart India Hackathon 2026 - Problem SIH26106">
+          SIH 2026 — PROBLEM SIH26106
         </div>
-      </header>
 
-      <!-- ── TAB CONTENT PANES ────────────────────────── -->
-      <div class="content-body">
+        <!-- Star field canvas -->
+        <canvas class="stars-canvas" id="stars-canvas" aria-hidden="true"></canvas>
 
-        <!-- ══ TAB 1: SOC DASHBOARD ══════════════════════════════════ -->
-        <div id="tab-dashboard" class="tab-pane active fade-in">
+        <div class="hero-eyebrow" aria-hidden="true">
+          <span></span>
+          AI-Powered Email Threat Intelligence
+          <span></span>
+        </div>
 
-          <!-- Stat Cards -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
-              <div class="stat-info">
-                <h3 id="stat-threat-score">—</h3>
-                <p>Live Threat Level</p>
+        <h1 class="hero-title">
+          Cyber <span>Constellation</span>
+        </h1>
+
+        <p class="hero-tagline">
+          Email is the entry point. Intelligence is the destination.<br>
+          One suspicious email becomes an entire cyber investigation universe.
+        </p>
+
+        <div class="hero-verbs" aria-label="Platform capabilities">
+          <span class="hero-verb">Detect</span>
+          <span class="hero-verb">Verify</span>
+          <span class="hero-verb">Trace</span>
+          <span class="hero-verb">Correlate</span>
+          <span class="hero-verb">Investigate</span>
+          <span class="hero-verb">Report</span>
+        </div>
+
+        <!-- Interactive Relationship Diagram -->
+        <div class="relationship-diagram" aria-hidden="true" id="rel-diagram">
+          <div style="position:relative; width:100%; max-width:600px; margin:0 auto; height:280px;">
+            <svg width="100%" height="100%" viewBox="0 0 600 280" style="position:absolute; top:0; left:0;" id="rel-svg">
+              <!-- Lines drawn by JS -->
+            </svg>
+            <!-- Center node -->
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+              <div class="rel-center animate-pulse-node">
+                <i class="fa-solid fa-envelope" style="font-size:1.4rem; margin-bottom:4px;"></i>
+                <div style="font-size:0.55rem; letter-spacing:0.1em;">EMAIL</div>
               </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon cyan"><i class="fa-solid fa-bolt"></i></div>
-              <div class="stat-info">
-                <h3>0.42s</h3>
-                <p>Forensic Inference Time</p>
-              </div>
+            <!-- Satellite nodes — positioned by JS -->
+            <div class="rel-sat-node animate-node" data-label="DOMAIN" data-icon="fa-globe" style="position:absolute; top:10%; left:10%; animation-delay:200ms;"></div>
+            <div class="rel-sat-node animate-node" data-label="IP" data-icon="fa-server" style="position:absolute; top:10%; right:10%; animation-delay:400ms;"></div>
+            <div class="rel-sat-node animate-node" data-label="RELAY" data-icon="fa-network-wired" style="position:absolute; top:50%; left:5%; transform:translateY(-50%); animation-delay:600ms;"></div>
+            <div class="rel-sat-node animate-node" data-label="URL" data-icon="fa-link" style="position:absolute; top:50%; right:5%; transform:translateY(-50%); animation-delay:800ms;"></div>
+            <div class="rel-sat-node animate-node" data-label="GEO" data-icon="fa-earth-asia" style="position:absolute; bottom:10%; left:15%; animation-delay:1000ms;"></div>
+            <div class="rel-sat-node animate-node" data-label="CAMPAIGN" data-icon="fa-diagram-project" style="position:absolute; bottom:10%; right:15%; animation-delay:1200ms;"></div>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="hero-cta">
+          <button class="btn btn-launch" id="launch-demo-btn" aria-label="Launch one-click demo investigation">
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+            LAUNCH INVESTIGATION
+          </button>
+          <button class="btn btn-secondary btn-lg" id="go-dashboard-btn" aria-label="Go to command center dashboard">
+            <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+            Command Center
+          </button>
+        </div>
+
+        <!-- Feature Trifecta -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; max-width:800px; width:100%; margin-top:60px;" class="stagger-children">
+          <div class="card animate-slide-up" style="padding:24px; text-align:center;">
+            <div style="width:48px; height:48px; background:var(--accent-dim); border:1px solid var(--accent-glow); border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:1.2rem; color:var(--accent);">
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon amber"><i class="fa-solid fa-network-wired"></i></div>
-              <div class="stat-info">
-                <h3 id="stat-hops">—</h3>
-                <p>Relay Hops Extracted</p>
-              </div>
+            <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">EMAIL → UNIVERSE</h3>
+            <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.6;">One suspicious email becomes an interactive intelligence constellation connecting domains, IPs, relays, and campaigns.</p>
+          </div>
+          <div class="card animate-slide-up" style="padding:24px; text-align:center;">
+            <div style="width:48px; height:48px; background:rgba(45,212,191,0.1); border:1px solid rgba(45,212,191,0.25); border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:1.2rem; color:var(--sev-safe);">
+              <i class="fa-solid fa-route" aria-hidden="true"></i>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon green"><i class="fa-solid fa-shield-check"></i></div>
-              <div class="stat-info">
-                <h3>Sec 65B</h3>
-                <p>BSA Legal Status</p>
+            <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">TRACE THE STORY</h3>
+            <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.6;">Reconstruct the technical journey: sender → relay → IP → infrastructure → domain → URL → campaign.</p>
+          </div>
+          <div class="card animate-slide-up" style="padding:24px; text-align:center;">
+            <div style="width:48px; height:48px; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.25); border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:1.2rem; color:var(--purple);">
+              <i class="fa-solid fa-brain" aria-hidden="true"></i>
+            </div>
+            <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">EXPLAIN THE THREAT</h3>
+            <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.6;">The system doesn't just say PHISHING — it explains WHY, with evidence, confidence scores, and attribution.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ══ DASHBOARD — COMMAND CENTER ═══════════════════════════════════ -->
+    <div id="tab-dashboard" class="tab-pane" role="tabpanel" aria-label="SOC Command Center Dashboard">
+
+      <!-- Command Bar -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Cyber Command Center</h1>
+          <p class="section-subtitle" id="dashboard-sync-time">Last intelligence sync: just now</p>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <button class="btn btn-secondary btn-sm" id="refresh-dashboard-btn" aria-label="Refresh dashboard data">
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
+          </button>
+          <button class="btn btn-primary btn-sm" id="dashboard-analyze-btn" aria-label="Start new email analysis">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> New Investigation
+          </button>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metrics-grid stagger-children" id="metrics-grid" role="region" aria-label="Key threat metrics">
+        <div class="metric-card accent" id="metric-cases" tabindex="0" role="button" aria-label="Active cases: 37">
+          <div class="metric-label">Active Cases</div>
+          <div class="metric-value" id="m-active-cases">37</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> +12% vs last period</div>
+        </div>
+        <div class="metric-card critical" id="metric-critical" tabindex="0" role="button" aria-label="Critical threats: 8">
+          <div class="metric-label">Critical Threats</div>
+          <div class="metric-value" id="m-critical">08</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> ↑ 18% vs previous period</div>
+        </div>
+        <div class="metric-card high" id="metric-phishing" tabindex="0" role="button" aria-label="Phishing detected: 142">
+          <div class="metric-label">Phishing Detected</div>
+          <div class="metric-value" id="m-phishing">142</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> ↑ 7% this week</div>
+        </div>
+        <div class="metric-card" id="metric-campaigns" tabindex="0" role="button" aria-label="Active campaigns: 12">
+          <div class="metric-label">Active Campaigns</div>
+          <div class="metric-value" id="m-campaigns">12</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> 2 new campaigns</div>
+        </div>
+        <div class="metric-card" id="metric-infra" tabindex="0" role="button" aria-label="Suspicious infrastructure: 86">
+          <div class="metric-label">Suspicious Infra</div>
+          <div class="metric-value" id="m-infra">86</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i> ↑ 5 new nodes</div>
+        </div>
+        <div class="metric-card safe" id="metric-today" tabindex="0" role="button" aria-label="Investigations today: 29">
+          <div class="metric-label">Investigations Today</div>
+          <div class="metric-value" id="m-today">29</div>
+          <div class="metric-trend trend-neutral"><i class="fa-solid fa-minus" aria-hidden="true"></i> Normal activity</div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Grid -->
+      <div class="grid-2 mb-6">
+
+        <!-- Threat Constellation Widget -->
+        <div class="card" style="grid-column:1 / -1;">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-star-of-life" aria-hidden="true"></i><span>Live Threat Constellation</span></div>
+            <div class="card-actions">
+              <div class="graph-mode-toggle" role="group" aria-label="Graph view toggle">
+                <button class="graph-mode-btn active" id="db-graph-2d" aria-pressed="true" aria-label="2D view">2D</button>
+                <button class="graph-mode-btn" id="db-graph-3d" aria-pressed="false" aria-label="3D view">3D</button>
               </div>
+              <button class="btn btn-ghost btn-sm" id="db-expand-graph" aria-label="Expand constellation">
+                <i class="fa-solid fa-expand" aria-hidden="true"></i>
+              </button>
             </div>
           </div>
+          <div class="graph-container" style="height:340px;" id="dashboard-graph-container">
+            <div id="dashboard-graph-2d" style="width:100%;height:100%;"></div>
+            <div id="dashboard-graph-3d" style="width:100%;height:100%; display:none;"></div>
+            <div class="graph-toolbar" aria-label="Graph controls">
+              <button class="btn btn-ghost btn-sm" id="db-graph-reset" aria-label="Reset graph view" title="Reset view">
+                <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-ghost btn-sm" id="db-graph-fit" aria-label="Fit graph to view" title="Fit to view">
+                <i class="fa-solid fa-compress" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div id="dashboard-node-inspector" class="node-inspector hidden" role="complementary" aria-label="Node details"></div>
+            <div class="empty-state" id="db-graph-empty" style="position:absolute; inset:0; background:var(--bg-secondary);">
+              <i class="fa-solid fa-star-of-life" style="color:var(--accent); animation:pulse-slow 2s infinite;" aria-hidden="true"></i>
+              <h3>Constellation Ready</h3>
+              <p>Select a case or run an analysis to populate the threat constellation</p>
+              <button class="btn btn-primary btn-sm mt-4" id="db-load-demo-constellation" aria-label="Load demo constellation">
+                Load Demo Constellation
+              </button>
+            </div>
+          </div>
+        </div>
 
-          <div class="grid-2col">
-            <!-- Threat Dial -->
+        <!-- Global Threat Map -->
+        <div class="card" role="region" aria-label="Global infrastructure threat map">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-earth-americas" aria-hidden="true"></i><span>Threat Infrastructure Map</span></div>
+            <div class="card-actions">
+              <button class="btn btn-ghost btn-sm" id="db-open-map" aria-label="Open full threat map">
+                <i class="fa-solid fa-expand" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div class="map-container" style="height:280px;">
+            <div id="dashboard-map" style="width:100%;height:100%;"></div>
+            <div class="map-disclaimer" aria-label="Map disclaimer">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+              Probable infrastructure location — not attacker physical location
+            </div>
+          </div>
+        </div>
+
+        <!-- Threat Pulse -->
+        <div class="card" role="region" aria-label="Live threat pulse feed">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-wave-square" aria-hidden="true"></i><span>Threat Pulse</span></div>
+            <div class="card-actions">
+              <span style="font-size:0.65rem; color:var(--amber); font-weight:600; background:var(--amber-dim); border:1px solid rgba(245,158,11,0.2); padding:2px 8px; border-radius:4px;">DEMO</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding:8px 14px; max-height:280px; overflow-y:auto;">
+            <div class="pulse-feed" id="pulse-feed" aria-live="polite" aria-label="Real-time threat events"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Cases Table -->
+      <div class="card" role="region" aria-label="Top active cases">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-folder-open" aria-hidden="true"></i><span>Top Active Cases</span></div>
+          <div class="card-actions">
+            <button class="btn btn-ghost btn-sm" id="view-all-cases-btn" aria-label="View all cases">View All <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="data-table" role="grid" aria-label="Active cases list">
+            <thead>
+              <tr>
+                <th scope="col">Case</th>
+                <th scope="col">Threat Type</th>
+                <th scope="col">Risk</th>
+                <th scope="col">Status</th>
+                <th scope="col">Assigned</th>
+                <th scope="col">Last Activity</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cases-table-body" aria-label="Case rows">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ANALYZE — INVESTIGATION WORKSPACE ════════════════════════════ -->
+    <div id="tab-analyze" class="tab-pane" role="tabpanel" aria-label="Email analysis workspace">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i> Start Investigation</h1>
+          <p class="section-subtitle">Upload a suspicious email and let the intelligence engine reconstruct the story.</p>
+        </div>
+      </div>
+
+      <!-- Upload / Input Section (shown when no analysis) -->
+      <div id="analyze-upload-section">
+        <div class="grid-sidebar-left" style="gap:20px; align-items:start;">
+
+          <!-- Upload Zone -->
+          <div>
+            <div class="upload-zone" id="upload-zone" role="button" aria-label="Upload email file (.eml or .msg)">
+              <input type="file" id="email-file-input" accept=".eml,.msg,.txt" aria-label="Upload email file">
+              <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+              <h3>Drop .EML / .MSG file here</h3>
+              <p>or click to browse — SHA-256 calculated automatically</p>
+              <div style="margin-top:16px; font-size:0.72rem; color:var(--text-dim); font-family:var(--font-mono);" id="upload-hash-display" aria-live="polite"></div>
+            </div>
+
+            <div style="text-align:center; padding:16px 0; color:var(--text-dim); font-size:0.78rem;">— or —</div>
+
+            <!-- Paste Zone -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-chart-pie"></i><span>Autonomous Threat Assessment</span></div>
-                <a id="mitre-badge-link" class="mitre-badge" href="#" target="_blank">
-                  <i class="fa-solid fa-crosshairs"></i>
-                  <span id="mitre-tag-text">MITRE ATT&CK —</span>
-                </a>
+                <div class="card-title"><i class="fa-solid fa-paste" aria-hidden="true"></i><span>Paste Raw Email Headers / Body</span></div>
               </div>
-              <div class="threat-meter-container">
-                <div class="threat-gauge-wrapper">
-                  <svg class="threat-gauge-svg" width="160" height="160" viewBox="0 0 160 160">
-                    <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="9" />
-                    <circle id="threat-gauge-progress" cx="80" cy="80" r="68" fill="none" stroke="var(--cyan-glow)" stroke-width="9" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" transform="rotate(-90 80 80)" style="transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s;" />
-                  </svg>
-                  <div id="threat-score-dial" class="threat-score-dial safe" style="position:absolute; width:100%; height:100%; border:none; box-shadow:none; background:transparent;">
-                    <div id="threat-score-num" class="score-num" style="color:var(--green-safe);">—</div>
-                    <div id="threat-score-label" class="score-label">STANDBY</div>
+              <div class="card-body" style="padding:12px;">
+                <textarea
+                  id="email-paste-area"
+                  style="width:100%; height:160px; background:var(--bg-input); border:1px solid var(--border-subtle); border-radius:8px; padding:12px; color:var(--text-primary); font-family:var(--font-mono); font-size:0.72rem; resize:vertical; outline:none; line-height:1.6;"
+                  placeholder="Paste raw email headers or full email text here..."
+                  aria-label="Paste raw email content"
+                ></textarea>
+              </div>
+              <div style="padding:8px 14px; display:flex; gap:8px;">
+                <button class="btn btn-primary" id="analyze-paste-btn" aria-label="Analyze pasted email content">
+                  <i class="fa-solid fa-search" aria-hidden="true"></i> Analyze Email
+                </button>
+                <button class="btn btn-secondary" id="clear-paste-btn" aria-label="Clear pasted content">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Demo Scenarios -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-flask-vial" aria-hidden="true"></i><span>Demo Scenarios</span></div>
+            </div>
+            <div id="demo-scenario-list" style="padding:8px;" role="list" aria-label="Demo email scenarios">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis Pipeline (shown during analysis) -->
+      <div id="analyze-pipeline-section" class="hidden">
+        <div class="grid-sidebar" style="gap:20px; align-items:start;">
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-circle-notch step-icon-active" id="pipeline-icon" aria-hidden="true"></i>
+                <span>Investigation in Progress</span>
+              </div>
+              <div id="pipeline-subject" style="font-size:0.75rem; color:var(--text-muted); max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></div>
+            </div>
+            <div class="pipeline-container" id="pipeline-steps" role="log" aria-label="Analysis pipeline progress" aria-live="polite">
+              <!-- Steps populated by JS -->
+            </div>
+          </div>
+
+          <!-- Live Analysis Preview -->
+          <div>
+            <div class="card mb-4">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-eye" aria-hidden="true"></i><span>Live Analysis Preview</span></div>
+              </div>
+              <div class="card-body">
+                <div style="display:flex; flex-direction:column; gap:12px;" id="live-preview-area" aria-live="polite" aria-label="Live analysis updates">
+                  <div class="skeleton" style="height:20px; width:70%;"></div>
+                  <div class="skeleton" style="height:20px; width:90%;"></div>
+                  <div class="skeleton" style="height:20px; width:50%;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="text-align:center; padding:20px 0; color:var(--text-muted); font-size:0.78rem;" id="analysis-eta-display" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investigation Results (shown after analysis) -->
+      <div id="analyze-results-section" class="hidden">
+
+        <!-- Investigation Header -->
+        <div class="investigation-header" id="inv-header-area" role="banner">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Investigation Tabs -->
+        <div class="tab-bar" id="inv-tab-bar" role="tablist" aria-label="Investigation views">
+          <button class="tab-btn active" data-inv-tab="overview"    role="tab" aria-selected="true"  aria-controls="inv-overview">   <i class="fa-solid fa-eye" aria-hidden="true"></i>       Overview</button>
+          <button class="tab-btn"        data-inv-tab="email"       role="tab" aria-selected="false" aria-controls="inv-email">      <i class="fa-solid fa-envelope" aria-hidden="true"></i>  Email</button>
+          <button class="tab-btn"        data-inv-tab="ai"          role="tab" aria-selected="false" aria-controls="inv-ai">         <i class="fa-solid fa-brain" aria-hidden="true"></i>     AI Analysis</button>
+          <button class="tab-btn"        data-inv-tab="headers"     role="tab" aria-selected="false" aria-controls="inv-headers">    <i class="fa-solid fa-code" aria-hidden="true"></i>      Headers</button>
+          <button class="tab-btn"        data-inv-tab="urls"        role="tab" aria-selected="false" aria-controls="inv-urls">       <i class="fa-solid fa-link" aria-hidden="true"></i>      URLs</button>
+          <button class="tab-btn"        data-inv-tab="relay"       role="tab" aria-selected="false" aria-controls="inv-relay">      <i class="fa-solid fa-network-wired" aria-hidden="true"></i> Relay</button>
+          <button class="tab-btn"        data-inv-tab="geo"         role="tab" aria-selected="false" aria-controls="inv-geo">        <i class="fa-solid fa-earth-asia" aria-hidden="true"></i> Geo Trace</button>
+          <button class="tab-btn"        data-inv-tab="graph"       role="tab" aria-selected="false" aria-controls="inv-graph">      <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Threat Graph</button>
+          <button class="tab-btn"        data-inv-tab="timeline"    role="tab" aria-selected="false" aria-controls="inv-timeline">   <i class="fa-solid fa-clock" aria-hidden="true"></i>     Timeline</button>
+          <button class="tab-btn"        data-inv-tab="evidence"    role="tab" aria-selected="false" aria-controls="inv-evidence">   <i class="fa-solid fa-lock" aria-hidden="true"></i>      Evidence</button>
+          <button class="tab-btn"        data-inv-tab="report"      role="tab" aria-selected="false" aria-controls="inv-report">     <i class="fa-solid fa-file-lines" aria-hidden="true"></i>Report</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div style="margin-top:16px;" id="inv-tab-contents">
+
+          <!-- OVERVIEW -->
+          <div class="inv-tab-pane active" id="inv-overview" role="tabpanel" aria-label="Investigation overview">
+            <div class="grid-2">
+              <!-- Risk Score -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i><span>Threat Assessment</span></div>
+                </div>
+                <div class="card-body" style="text-align:center; padding:24px;">
+                  <div class="risk-dial-wrap" id="risk-dial-container" aria-label="Risk score gauge">
+                    <svg class="risk-dial-svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Risk score dial">
+                      <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+                      <circle id="risk-gauge-circle" cx="80" cy="80" r="68" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" transform="rotate(-90 80 80)" style="transition:stroke-dashoffset 1.2s var(--ease-out), stroke 0.4s;"/>
+                    </svg>
+                    <div class="risk-score-center">
+                      <div class="risk-score-num" id="risk-score-num" style="color:var(--accent);">—</div>
+                      <div class="risk-score-label" id="risk-score-tier">STANDBY</div>
+                    </div>
+                  </div>
+                  <div id="threat-tier-badge" style="margin-top:16px;"></div>
+                  <p id="risk-summary-text" style="font-size:0.78rem; color:var(--text-muted); margin-top:12px; line-height:1.6; max-width:280px; margin-left:auto; margin-right:auto;"></p>
+                </div>
+              </div>
+
+              <!-- Authentication -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title"><i class="fa-solid fa-shield-check" aria-hidden="true"></i><span>Authentication</span></div>
+                </div>
+                <div class="card-body" id="auth-panel">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Why Dangerous -->
+              <div class="card" style="grid-column:1/-1;" id="why-dangerous-card">
+                <div class="card-header">
+                  <div class="card-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--sev-critical);" aria-hidden="true"></i><span>WHY THIS EMAIL IS DANGEROUS</span></div>
+                </div>
+                <div class="card-body">
+                  <div class="danger-reasons" id="danger-reasons-list" role="list" aria-label="Danger reasons"></div>
+                </div>
+              </div>
+
+              <!-- Signal Breakdown -->
+              <div class="card" style="grid-column:1/-1;">
+                <div class="card-header">
+                  <div class="card-title"><i class="fa-solid fa-list-check" aria-hidden="true"></i><span>Risk Score Breakdown</span></div>
+                </div>
+                <div class="card-body" id="signal-breakdown-panel">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Confidence Indicators -->
+              <div class="card" style="grid-column:1/-1;">
+                <div class="card-header">
+                  <div class="card-title"><i class="fa-solid fa-percent" aria-hidden="true"></i><span>Forensic Confidence</span></div>
+                </div>
+                <div class="card-body" id="confidence-panel">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- EMAIL FORENSICS -->
+          <div class="inv-tab-pane" id="inv-email" role="tabpanel" aria-label="Email forensics" style="display:none;">
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Email Metadata</span></div></div>
+                <div class="card-body" id="email-meta-panel"></div>
+              </div>
+              <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-code" aria-hidden="true"></i><span>Raw Headers</span></div></div>
+                <div style="padding:14px; max-height:400px; overflow-y:auto;">
+                  <pre id="raw-headers-display" style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-secondary); white-space:pre-wrap; word-break:break-all; line-height:1.7;"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI ANALYSIS -->
+          <div class="inv-tab-pane" id="inv-ai" role="tabpanel" aria-label="AI analysis" style="display:none;">
+            <div class="ai-panel" id="ai-analysis-panel">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- HEADERS -->
+          <div class="inv-tab-pane" id="inv-headers" role="tabpanel" aria-label="Header forensics" style="display:none;">
+            <div class="card" id="headers-analysis-panel"></div>
+          </div>
+
+          <!-- URLS -->
+          <div class="inv-tab-pane" id="inv-urls" role="tabpanel" aria-label="URL analysis" style="display:none;">
+            <div class="card" id="urls-panel">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Suspicious URLs</span></div></div>
+              <div id="urls-content"></div>
+            </div>
+          </div>
+
+          <!-- RELAY -->
+          <div class="inv-tab-pane" id="inv-relay" role="tabpanel" aria-label="SMTP relay visualization" style="display:none;">
+            <div class="grid-sidebar">
+              <div class="card">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-network-wired" aria-hidden="true"></i><span>SMTP Relay Chain</span></div></div>
+                <div id="relay-chain-container" style="padding:16px;"></div>
+              </div>
+              <div class="card" id="relay-node-detail">
+                <div class="card-header"><div class="card-title"><i class="fa-solid fa-server" aria-hidden="true"></i><span>Node Inspector</span></div></div>
+                <div class="card-body" id="relay-node-detail-content">
+                  <div class="empty-state" style="padding:40px 20px;">
+                    <i class="fa-solid fa-server" aria-hidden="true"></i>
+                    <p>Click a relay node to inspect details</p>
                   </div>
                 </div>
-                <p id="threat-summary-text" style="color:var(--text-secondary); text-align:center; margin-top:16px; font-size:0.82rem; max-width:380px; line-height:1.5;">
-                  Select a demo scenario or paste a raw email in the Triage tab to begin.
-                </p>
               </div>
-              <div class="auth-badges-grid">
-                <div id="badge-spf" class="auth-badge neutral">
-                  <div class="protocol-name">SPF</div>
-                  <div class="protocol-status">—</div>
-                </div>
-                <div id="badge-dkim" class="auth-badge neutral">
-                  <div class="protocol-name">DKIM</div>
-                  <div class="protocol-status">—</div>
-                </div>
-                <div id="badge-dmarc" class="auth-badge neutral">
-                  <div class="protocol-name">DMARC</div>
-                  <div class="protocol-status">—</div>
+            </div>
+          </div>
+
+          <!-- GEO TRACE -->
+          <div class="inv-tab-pane" id="inv-geo" role="tabpanel" aria-label="Geolocation trace" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-earth-asia" aria-hidden="true"></i><span>Mail Relay Geolocation Trace</span></div></div>
+              <div class="map-container" style="height:360px;">
+                <div id="geo-trace-map" style="width:100%;height:100%;"></div>
+                <div class="map-disclaimer">
+                  <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                  Probable infrastructure location — not attacker physical location
                 </div>
               </div>
             </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-list" aria-hidden="true"></i><span>Relay Infrastructure Details</span></div></div>
+              <div id="geo-details-panel" style="padding:16px;"></div>
+            </div>
+          </div>
 
-            <!-- Signal Breakdown -->
+          <!-- THREAT GRAPH -->
+          <div class="inv-tab-pane" id="inv-graph" role="tabpanel" aria-label="Threat graph visualization" style="display:none;">
             <div class="card">
               <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-list-check"></i><span>Multi-Vector Forensic Signal Breakdown</span></div>
-              </div>
-              <div style="max-height: 320px; overflow-y: auto;">
-                <table class="custom-table">
-                  <thead>
-                    <tr>
-                      <th>Severity</th>
-                      <th>Forensic Signal</th>
-                      <th>Weight</th>
-                    </tr>
-                  </thead>
-                  <tbody id="signals-table-body">
-                    <tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:24px;">No analysis yet — run forensic triage</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Extracted Metadata & Evidence Anchoring -->
-          <div class="grid-2col" style="margin-top:14px;">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-id-card"></i>Extracted Metadata</div>
-              </div>
-              <table class="custom-table">
-                <tr><td style="color:var(--text-muted)">Sender (From)</td><td id="res-from" style="color:var(--cyan-glow);">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Subject</td><td id="res-subject">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Originating Node</td><td id="res-origin-ip" style="color:var(--red-fraud);">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Threat Intent</td><td id="res-threat-cat">—</td></tr>
-                <tr><td style="color:var(--text-muted)">AI/WormGPT</td><td id="res-ai-flag">—</td></tr>
-                <tr><td style="color:var(--text-muted)">URLs Detected</td><td id="res-urls">—</td></tr>
-              </table>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-shield-halved"></i>Evidence Anchoring</div>
-              </div>
-              <table class="custom-table">
-                <tr><td style="color:var(--text-muted)">Blockchain Root</td><td id="res-blockchain-hash" style="word-break:break-all; color:var(--green-safe); font-size:0.7rem; font-family:var(--font-mono);">—</td></tr>
-                <tr><td style="color:var(--text-muted)">BSA 2023 Code</td><td id="res-bsa-ref" style="color:var(--amber-warn); font-family:var(--font-mono);">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Admissibility</td><td id="res-admissibility" style="color:var(--green-safe);">—</td></tr>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══ TAB 2: EMAIL FORENSIC TRIAGE ══════════════════════════ -->
-        <div id="tab-analyzer" class="tab-pane fade-in">
-
-          <!-- Ingestion Console -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-envelope-open-text"></i><span>RFC 5322 Raw Email Ingestion Console</span></div>
-              <div style="display:flex; gap:8px; align-items:center;">
-                <button id="btn-clear" class="btn btn-amber btn-sm"><i class="fa-solid fa-xmark"></i> Clear</button>
-                <button id="btn-analyze-now" class="btn btn-primary">
-                  <i class="fa-solid fa-bolt"></i><span>Run Deep Analysis</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Drag & Drop zone -->
-            <div id="eml-drop-zone" class="drop-zone" style="margin:12px 16px 0; padding:14px;">
-              <i class="fa-solid fa-file-arrow-up"></i>
-              Drag &amp; drop a <strong>.eml</strong> file here, or click to browse
-              <input type="file" id="eml-file-input" accept=".eml,.txt" style="display:none;">
-            </div>
-
-            <div class="sample-bar" style="margin-top:10px;">
-              <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">DEMO SCENARIOS:</span>
-              <button class="sample-btn" data-sample="sbi_phish">🚨 SBI KYC Phishing</button>
-              <button class="sample-btn" data-sample="bec_ceo">💼 CEO Wire Fraud (BEC)</button>
-              <button class="sample-btn" data-sample="quishing_qr">📷 GST QR Quishing</button>
-              <button class="sample-btn" data-sample="it_refund_spoof">💰 IT Refund Scam</button>
-              <button class="sample-btn" data-sample="legitimate_mail">✅ Clean Email</button>
-            </div>
-
-            <div style="padding:12px 16px 16px;">
-              <textarea id="raw-email-input" class="raw-textarea" placeholder="Paste complete RFC 5322 email with headers here, or drag-and-drop a .eml file above..."></textarea>
-            </div>
-          </div>
-
-          <!-- Analysis Results Row -->
-          <div class="grid-3col">
-            <div class="card">
-              <div class="card-header"><div class="card-title"><i class="fa-solid fa-fingerprint"></i>Authentication Anomalies</div></div>
-              <div id="header-anomaly-list" style="padding:12px 16px; font-size:0.76rem; color:var(--text-secondary); min-height:80px;">
-                Run analysis to see anomalies.
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title"><i class="fa-solid fa-globe"></i>Domain Intelligence</div></div>
-              <table class="custom-table">
-                <tr><td style="color:var(--text-muted)">Sender Domain</td><td id="di-domain" style="font-family:var(--font-mono);">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Homoglyph</td><td id="di-homoglyph">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Lookalike Target</td><td id="di-lookalike">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Domain Age</td><td id="di-age">—</td></tr>
-              </table>
-            </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title"><i class="fa-solid fa-brain"></i>NLP &amp; Stylometry</div></div>
-              <table class="custom-table">
-                <tr><td style="color:var(--text-muted)">Urgency Score</td><td id="nlp-urgency">—</td></tr>
-                <tr><td style="color:var(--text-muted)">BEC Score</td><td id="nlp-bec">—</td></tr>
-                <tr><td style="color:var(--text-muted)">Burstiness</td><td id="nlp-burst">—</td></tr>
-                <tr><td style="color:var(--text-muted)">AI Fingerprint</td><td id="nlp-ai">—</td></tr>
-              </table>
-            </div>
-          </div>
-
-          <!-- Suspicious URLs -->
-          <div class="card" style="margin-top:14px;">
-            <div class="card-header"><div class="card-title"><i class="fa-solid fa-link"></i>Extracted URLs &amp; Payload Analysis</div></div>
-            <div id="url-list-container" style="padding:12px 16px; min-height:48px;">
-              <span style="color:var(--text-muted); font-size:0.78rem;">No URLs detected yet.</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══ TAB 3: GEO TRACE & STRAD ═══════════════════════════════ -->
-        <div id="tab-geomap" class="tab-pane fade-in">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-route"></i><span>Geospatial SMTP Relay Path Visualizer (Leaflet.js)</span></div>
-              <div style="display:flex; gap:8px;">
-                <span class="tag tag-red"><i class="fa-solid fa-circle" style="font-size:7px;"></i>Origin (Threat)</span>
-                <span class="tag tag-cyan"><i class="fa-solid fa-circle" style="font-size:7px;"></i>Relay Hops</span>
-              </div>
-            </div>
-            <div id="geo-map" class="cyber-grid-bg"></div>
-          </div>
-
-          <div class="card" style="margin-top:14px;">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i><span>STRAD: Spatio-Temporal Relay Anomaly Detection</span></div>
-              <span class="tag tag-purple">Physics Engine v2.1</span>
-            </div>
-            <div style="max-height:220px; overflow-y:auto;">
-              <table class="custom-table">
-                <thead>
-                  <tr>
-                    <th>Origin Relay</th>
-                    <th>Destination Hop</th>
-                    <th>Distance</th>
-                    <th>Min Transit (c)</th>
-                    <th>Anomaly Flag</th>
-                  </tr>
-                </thead>
-                <tbody id="strad-table-body">
-                  <tr><td colspan="5" style="color:var(--text-muted); text-align:center; padding:20px;">Run analysis to compute STRAD physics</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══ TAB 4: THREAT IDENTITY GRAPH ════════════════════════════ -->
-        <div id="tab-graph" class="tab-pane fade-in">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-circle-nodes"></i><span>Threat Syndicate &amp; Infrastructure Correlation Graph (D3.js)</span></div>
-              <div style="display:flex; gap:8px;">
-                <span class="tag tag-red">● Email</span>
-                <span class="tag tag-cyan">● Domain</span>
-                <span class="tag tag-amber">● IP Node</span>
-                <span class="tag tag-orange">⚠ Syndicate</span>
-              </div>
-            </div>
-            <p style="font-size:0.76rem; color:var(--text-muted); padding:8px 16px 0;">
-              Hover nodes for threat intelligence. Drag to rearrange. Force-directed layout correlates threat actors, relay infrastructure, and campaign clusters.
-            </p>
-            <div id="identity-graph"></div>
-          </div>
-        </div>
-
-        <!-- ══ TAB 5: BSA 2023 EVIDENCE VAULT ══════════════════════════ -->
-        <div id="tab-blockchain" class="tab-pane fade-in">
-
-          <!-- Action Bar -->
-          <div class="card" style="margin-bottom:14px;">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-file-shield"></i><span>Court-Admissible E-Panchnama Certificate (BSA 2023)</span></div>
-              <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button id="btn-verify-ledger" class="btn btn-green btn-sm"><i class="fa-solid fa-check-double"></i> Verify Ledger</button>
-                <button id="btn-tamper-demo" class="btn btn-danger btn-sm"><i class="fa-solid fa-bomb"></i> Simulate Tampering</button>
-                <button id="btn-print-panchnama" class="btn btn-amber btn-sm"><i class="fa-solid fa-print"></i> Print Certificate</button>
-                <button id="btn-download-panchnama" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i> Download .txt</button>
-                <button id="btn-export-vault" class="btn btn-sm" style="border-color:var(--cyan-glow); color:var(--cyan-glow);"><i class="fa-solid fa-file-export"></i> Export Vault JSON</button>
-              </div>
-            </div>
-            <pre id="panchnama-report-content" class="panchnama-report">Run forensic analysis to generate BSA 2023 E-Panchnama certificate.</pre>
-          </div>
-
-          <!-- Ledger -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-cubes"></i><span>Immutable Proof-of-Authority Blockchain Ledger</span></div>
-              <span id="ledger-status" class="tag tag-green"><i class="fa-solid fa-lock"></i> LEDGER SEALED</span>
-            </div>
-            <div id="blockchain-timeline" class="blockchain-timeline">
-              <div style="color:var(--text-muted); text-align:center; padding:24px; font-size:0.78rem;">Ledger is empty — run forensic analysis to seal evidence blocks.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══ TAB 6: CERT-In & I4C DISPATCH ═══════════════════════════ -->
-        <div id="tab-dispatch" class="tab-pane fade-in">
-
-          <div class="grid-2col">
-            <!-- CERT-In JSON Report -->
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-building-shield"></i><span>CERT-In Section 70B Incident Report</span></div>
-                <div style="display:flex; gap:6px; align-items:center;">
-                  <span class="tag tag-green" style="font-size:0.62rem;"><i class="fa-solid fa-user-shield"></i> DPDP Act 2023 Masked</span>
-                  <button id="btn-copy-certin" class="btn btn-primary btn-sm"><i class="fa-solid fa-copy"></i> Copy JSON</button>
+                <div class="card-title"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span>Threat Identity Graph</span></div>
+                <div class="card-actions">
+                  <div class="graph-mode-toggle" role="group" aria-label="Graph view mode">
+                    <button class="graph-mode-btn active" id="inv-graph-2d-btn" aria-pressed="true">2D</button>
+                    <button class="graph-mode-btn" id="inv-graph-3d-btn" aria-pressed="false">3D</button>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" id="inv-graph-reset-btn" aria-label="Reset graph view">
+                    <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+                  </button>
                 </div>
               </div>
-              <pre id="certin-dispatch-json" class="dispatch-json">Run forensic analysis to generate CERT-In incident dispatch JSON.</pre>
-            </div>
-
-            <!-- I4C FIR Docket -->
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title"><i class="fa-solid fa-file-pen"></i><span>I4C 1930 National Helpline FIR Docket</span></div>
-              </div>
-              <div style="padding:14px; font-size:0.78rem; color:var(--text-secondary);">
-                <p style="margin-bottom:10px;">Auto-generated complaint docket for filing on <a href="https://cybercrime.gov.in" target="_blank" style="color:var(--cyan-glow);">cybercrime.gov.in</a> and the I4C 1930 National Helpline.</p>
-                <pre id="i4c-fir-docket" style="background:#02050e; color:#ffaa00; padding:14px; border-radius:6px; font-family:var(--font-mono); font-size:0.7rem; overflow-x:auto; border:1px solid var(--border-subtle); white-space:pre-wrap;">Run forensic analysis to generate FIR docket.</pre>
+              <div class="graph-container" style="height:480px;" id="inv-graph-container">
+                <div id="inv-graph-2d" style="width:100%;height:100%;"></div>
+                <div id="inv-graph-3d" style="width:100%;height:100%; display:none;"></div>
+                <div id="inv-node-inspector" class="node-inspector hidden"></div>
               </div>
             </div>
           </div>
 
-          <!-- Automated Mitigation Playbook -->
-          <div class="card" style="margin-top:14px;">
-            <div class="card-header">
-              <div class="card-title"><i class="fa-solid fa-shield-virus"></i><span>Automated Mitigation Playbook</span></div>
-              <button id="btn-copy-playbook" class="btn btn-amber btn-sm"><i class="fa-solid fa-copy"></i> Copy Rules</button>
+          <!-- TIMELINE -->
+          <div class="inv-tab-pane" id="inv-timeline" role="tabpanel" aria-label="Investigation timeline" style="display:none;">
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>Event Timeline</span></div></div>
+              <div class="card-body">
+                <div class="custody-timeline" id="timeline-panel" role="list" aria-label="Event timeline"></div>
+              </div>
             </div>
-            <div style="padding:14px;">
-              <ul class="playbook-list" id="playbook-list">
-                <li class="playbook-item"><i class="fa-solid fa-ban"></i><div>Run analysis to generate automated mitigation rules (iptables, Snort/Suricata, BGP Blackhole, DNS Sinkhole)</div></li>
-              </ul>
+          </div>
+
+          <!-- EVIDENCE -->
+          <div class="inv-tab-pane" id="inv-evidence" role="tabpanel" aria-label="Evidence vault" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Evidence Objects</span></div></div>
+              <div id="evidence-list-panel" role="list" aria-label="Evidence items"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-timeline" aria-hidden="true"></i><span>Chain of Custody</span></div></div>
+              <div class="card-body">
+                <div class="custody-timeline" id="custody-panel" role="list" aria-label="Chain of custody events"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- REPORT -->
+          <div class="inv-tab-pane" id="inv-report" role="tabpanel" aria-label="Forensic report builder" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header">
+                <div class="card-title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i><span>Forensic Report Preview</span></div>
+                <div class="card-actions">
+                  <button class="btn btn-secondary btn-sm" id="export-json-btn" aria-label="Export report as JSON">
+                    <i class="fa-solid fa-download" aria-hidden="true"></i> JSON
+                  </button>
+                  <button class="btn btn-primary btn-sm" id="export-pdf-btn" aria-label="Export report as PDF">
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF
+                  </button>
+                </div>
+              </div>
+              <div style="padding:16px;" id="report-preview-container">
+                <!-- Report HTML injected here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Investigation Story (shown on overview) -->
+          <div id="inv-story-section" class="hidden" style="margin-top:16px;">
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Investigation Story</span></div></div>
+              <div class="card-body">
+                <div class="story-container" id="story-text" aria-label="Investigation narrative"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- New Analysis Button -->
+        <div style="margin-top:20px; text-align:center;">
+          <button class="btn btn-secondary" id="new-analysis-btn" aria-label="Start a new email analysis">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Start New Investigation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CASES ════════════════════════════════════════════════════════ -->
+    <div id="tab-cases" class="tab-pane" role="tabpanel" aria-label="Case management">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-folder-open" aria-hidden="true"></i> Case Management</h1>
+          <p class="section-subtitle">All investigation cases — click to open forensic workspace</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-secondary btn-sm" id="filter-all-cases" aria-label="Show all cases">All</button>
+          <button class="btn btn-secondary btn-sm" id="filter-critical-cases" aria-label="Show critical cases only">Critical</button>
+          <button class="btn btn-secondary btn-sm" id="filter-active-cases" aria-label="Show active cases">Active</button>
+          <button class="btn btn-primary btn-sm" id="cases-new-btn" aria-label="Start new investigation">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> New Investigation
+          </button>
+        </div>
+      </div>
+
+      <!-- Cases Grid -->
+      <div id="cases-grid" style="display:flex; flex-direction:column; gap:10px;" role="list" aria-label="Investigation cases"></div>
+    </div>
+
+    <!-- ══ CAMPAIGNS ════════════════════════════════════════════════════ -->
+    <div id="tab-campaigns" class="tab-pane" role="tabpanel" aria-label="Campaign intelligence">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Campaign Intelligence</h1>
+          <p class="section-subtitle">Correlated threat campaigns — coordinated attack infrastructure</p>
+        </div>
+      </div>
+
+      <div class="degraded-notice" role="alert">
+        <i class="fa-solid fa-flask-vial" aria-hidden="true"></i>
+        <div>
+          <strong>Demo Mode:</strong> Showing 5 synthetic campaign intelligence clusters. All data is fictional and for SIH26106 demonstration purposes only.
+        </div>
+      </div>
+
+      <div id="campaigns-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; margin-bottom:24px;" role="list" aria-label="Campaign clusters"></div>
+
+      <!-- Selected Campaign Detail -->
+      <div id="campaign-detail" class="card hidden">
+        <div id="campaign-detail-content"></div>
+      </div>
+    </div>
+
+    <!-- ══ EVIDENCE ══════════════════════════════════════════════════════ -->
+    <div id="tab-evidence" class="tab-pane" role="tabpanel" aria-label="Evidence vault">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-lock" aria-hidden="true"></i> Evidence Vault</h1>
+          <p class="section-subtitle">Forensic evidence objects with SHA-256 integrity verification</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-database" aria-hidden="true"></i><span>Evidence Registry</span></div>
+          <div style="font-size:0.7rem; color:var(--text-muted);">All evidence objects — immutable SHA-256 protected</div>
+        </div>
+        <div id="global-evidence-list" role="list" aria-label="Evidence registry"></div>
+      </div>
+
+      <!-- Global Chain of Custody -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="fa-solid fa-timeline" aria-hidden="true"></i><span>Global Chain of Custody Audit Log</span></div>
+        </div>
+        <div class="card-body">
+          <div class="custody-timeline" id="global-custody" role="list" aria-label="Global custody events"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REPORTS ════════════════════════════════════════════════════════ -->
+    <div id="tab-reports" class="tab-pane" role="tabpanel" aria-label="Forensic report builder">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Forensic Report Builder</h1>
+          <p class="section-subtitle">Generate professional forensic reports for analyst review and legal proceedings</p>
+        </div>
+      </div>
+
+      <div class="grid-sidebar-left" style="gap:20px; align-items:start;">
+
+        <!-- Case Selector -->
+        <div>
+          <div class="card mb-4">
+            <div class="card-header"><div class="card-title"><i class="fa-solid fa-list" aria-hidden="true"></i><span>Select Case</span></div></div>
+            <div id="report-case-selector" style="padding:8px;" role="list" aria-label="Select case for report"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fa-solid fa-cog" aria-hidden="true"></i><span>Report Options</span></div></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+              <div class="flag-row"><span>Executive Summary</span><div class="toggle-switch on" data-section="executive"><div class="toggle-thumb"></div></div></div>
+              <div class="flag-row"><span>Email Metadata</span><div class="toggle-switch on" data-section="email"><div class="toggle-thumb"></div></div></div>
+              <div class="flag-row"><span>Authentication Analysis</span><div class="toggle-switch on" data-section="auth"><div class="toggle-thumb"></div></div></div>
+              <div class="flag-row"><span>AI Classification</span><div class="toggle-switch on" data-section="ai"><div class="toggle-thumb"></div></div></div>
+              <div class="flag-row"><span>SMTP Relay Chain</span><div class="toggle-switch on" data-section="relay"><div class="toggle-thumb"></div></div></div>
+              <div class="flag-row"><span>Chain of Custody</span><div class="toggle-switch on" data-section="custody"><div class="toggle-thumb"></div></div></div>
             </div>
           </div>
         </div>
 
-      </div><!-- /.content-body -->
-    </main>
-  </div><!-- /.app-container -->
+        <!-- Report Preview -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-eye" aria-hidden="true"></i><span>Report Preview</span></div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" id="report-page-json" aria-label="Export as JSON">
+                <i class="fa-solid fa-download" aria-hidden="true"></i> JSON
+              </button>
+              <button class="btn btn-primary btn-sm" id="report-page-pdf" aria-label="Export as PDF">
+                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Print / PDF
+              </button>
+            </div>
+          </div>
+          <div style="max-height:680px; overflow-y:auto; padding:16px;" id="report-page-preview">
+            <div class="empty-state" style="padding:80px 20px;">
+              <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+              <h3>Select a Case</h3>
+              <p>Choose a case from the left panel to preview and generate the forensic report</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- Particle Canvas Background -->
-  <canvas id="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35;"></canvas>
+    <!-- ══ ADMIN ══════════════════════════════════════════════════════════ -->
+    <div id="tab-admin" class="tab-pane" role="tabpanel" aria-label="Admin console">
 
-  <!-- Threat Feed Ticker -->
-  <div id="threat-ticker" style="position:fixed;bottom:0;left:var(--sidebar-w);right:0;height:26px;background:rgba(5,10,22,0.95);border-top:1px solid rgba(0,212,255,0.13);display:flex;align-items:center;overflow:hidden;z-index:200;">
-    <div style="flex-shrink:0;padding:0 12px;font-size:0.62rem;font-weight:800;letter-spacing:1px;color:var(--red-fraud);font-family:var(--font-mono);border-right:1px solid rgba(255,34,68,0.3);margin-right:12px;">INDIA CYBER THREAT FEED</div>
-    <div id="ticker-track" style="display:flex;gap:0;white-space:nowrap;animation:ticker-scroll 40s linear infinite;"></div>
-  </div>
+      <div class="section-header">
+        <div>
+          <h1 class="section-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Admin Console</h1>
+          <p class="section-subtitle">Platform configuration, system health, and provider management</p>
+        </div>
+      </div>
 
-  <!-- CDN Libraries -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+      <div class="grid-2">
 
-  <!-- Application Modules -->
-  <script src="js/data/sample-emails.js"></script>
-  <script src="js/engines/parser.js"></script>
-  <script src="js/engines/nlp-engine.js"></script>
-  <script src="js/engines/dpdp-engine.js"></script>
-  <script src="js/engines/header-engine.js"></script>
-  <script src="js/engines/geo-engine.js"></script>
-  <script src="js/engines/domain-engine.js"></script>
-  <script src="js/engines/scoring-engine.js"></script>
-  <script src="js/engines/graph-engine.js"></script>
-  <script src="js/utils/storage.js"></script>
-  <script src="js/utils/blockchain.js"></script>
-  <script src="js/utils/audio.js"></script>
-  <script src="js/app.js"></script>
-  <script>
-  // ── PARTICLE BACKGROUND ENGINE ────────────────────────────────
-  (function(){
-    const canvas = document.getElementById('particle-canvas');
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, particles = [];
+        <!-- System Health -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i><span>System Health</span></div></div>
+          <div>
+            <div class="provider-row"><span>Email Analysis Engine</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+            <div class="provider-row"><span>AI Classification Model v1.4.2</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+            <div class="provider-row"><span>Geo Intelligence Engine</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+            <div class="provider-row"><span>Domain Intelligence</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+            <div class="provider-row"><span>Threat Intel — Provider A</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Online</span></div></div>
+            <div class="provider-row"><span>Threat Intel — Provider B</span><div class="provider-status"><span class="health-indicator partial" aria-label="Degraded"></span><span style="color:var(--amber);">Degraded</span></div></div>
+            <div class="provider-row"><span>Evidence Vault</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+            <div class="provider-row"><span>Report Generator</span><div class="provider-status"><span class="health-indicator up" aria-label="Online"></span><span style="color:var(--green);">Operational</span></div></div>
+          </div>
+        </div>
 
-    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize);
-    resize();
+        <!-- Feature Flags -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-flag" aria-hidden="true"></i><span>Feature Flags</span></div></div>
+          <div class="card-body">
+            <div class="flag-row" role="group" aria-label="3D Graph feature toggle">
+              <div><div style="font-weight:600; font-size:0.82rem;">3D_GRAPH</div><div style="font-size:0.72rem; color:var(--text-muted);">Three.js spatial constellation</div></div>
+              <div class="toggle-switch on" id="flag-3d-graph" role="switch" aria-checked="true" tabindex="0" aria-label="Toggle 3D Graph feature"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="flag-row" role="group" aria-label="Demo mode feature toggle">
+              <div><div style="font-weight:600; font-size:0.82rem;">DEMO_MODE</div><div style="font-size:0.72rem; color:var(--text-muted);">Synthetic data for SIH judging</div></div>
+              <div class="toggle-switch on" id="flag-demo" role="switch" aria-checked="true" tabindex="0" aria-label="Toggle demo mode"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="flag-row" role="group" aria-label="Geolocation feature toggle">
+              <div><div style="font-weight:600; font-size:0.82rem;">GEOLOCATION</div><div style="font-size:0.72rem; color:var(--text-muted);">IP infrastructure mapping</div></div>
+              <div class="toggle-switch on" id="flag-geo" role="switch" aria-checked="true" tabindex="0" aria-label="Toggle geolocation feature"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="flag-row" role="group" aria-label="Campaign correlation feature toggle">
+              <div><div style="font-weight:600; font-size:0.82rem;">CAMPAIGN_CORRELATION</div><div style="font-size:0.72rem; color:var(--text-muted);">Multi-email threat grouping</div></div>
+              <div class="toggle-switch on" id="flag-campaign" role="switch" aria-checked="true" tabindex="0" aria-label="Toggle campaign correlation"><div class="toggle-thumb"></div></div>
+            </div>
+            <div class="flag-row" role="group" aria-label="External threat intel feature toggle">
+              <div><div style="font-weight:600; font-size:0.82rem;">EXTERNAL_THREAT_INTEL</div><div style="font-size:0.72rem; color:var(--text-muted);">Third-party threat feeds</div></div>
+              <div class="toggle-switch" id="flag-external-ti" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle external threat intel"><div class="toggle-thumb"></div></div>
+            </div>
+          </div>
+        </div>
 
-    const COLORS = ['rgba(255,255,255,', 'rgba(148,163,184,', 'rgba(56,189,248,'];
-    for(let i=0; i<35; i++) particles.push({
-      x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()*1.2+0.4,
-      vx: (Math.random()-0.5)*0.15, vy: (Math.random()-0.5)*0.15,
-      col: COLORS[Math.floor(Math.random()*COLORS.length)],
-      alpha: Math.random()*0.25+0.05
-    });
+        <!-- AI Model Info -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-brain" aria-hidden="true"></i><span>AI Model Registry</span></div></div>
+          <div>
+            <div class="provider-row">
+              <div>
+                <div style="font-weight:600;">EmailThreatClassifier v1.4.2</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Dataset: dataset-2026-08 | Threshold: 0.78</div>
+              </div>
+              <span class="sev-tag safe">ACTIVE</span>
+            </div>
+            <div class="provider-row">
+              <div>
+                <div style="font-weight:600;">NLP Content Analyzer v2.1</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">14-signal weighted scoring</div>
+              </div>
+              <span class="sev-tag safe">ACTIVE</span>
+            </div>
+            <div class="provider-row">
+              <div>
+                <div style="font-weight:600;">STRAD Physics Engine v1.0</div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Spatio-temporal relay anomaly detection</div>
+              </div>
+              <span class="sev-tag safe">ACTIVE</span>
+            </div>
+          </div>
+        </div>
 
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-      particles.forEach(p=>{
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0) p.x=W; if(p.x>W) p.x=0;
-        if(p.y<0) p.y=H; if(p.y>H) p.y=0;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle=p.col+p.alpha+')';
-        ctx.fill();
-      });
-      // Draw subtle connecting lines for nearby particles
-      particles.forEach((a,i)=>{
-        particles.slice(i+1).forEach(b=>{
-          const d=Math.hypot(a.x-b.x,a.y-b.y);
-          if(d<100){
-            ctx.beginPath();
-            ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle='rgba(255,255,255,'+(0.03*(1-d/100))+')';
-            ctx.lineWidth=0.5;
-            ctx.stroke();
-          }
-        });
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
-  })();
+        <!-- Audit Log -->
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-scroll" aria-hidden="true"></i><span>Recent Audit Events</span></div></div>
+          <div class="card-body" style="padding:8px 14px; max-height:260px; overflow-y:auto;" role="log" aria-label="Audit log">
+            <div class="pulse-feed">
+              <div class="pulse-item"><div class="pulse-time">14:41:08</div><div class="pulse-dot-wrap"><div class="pulse-dot critical" aria-hidden="true"></div></div><div class="pulse-msg">Case CX-1024 analyzed by Security Analyst</div></div>
+              <div class="pulse-item"><div class="pulse-time">14:40:44</div><div class="pulse-dot-wrap"><div class="pulse-dot info" aria-hidden="true"></div></div><div class="pulse-msg">Report RPT-CX-1024 generated</div></div>
+              <div class="pulse-item"><div class="pulse-time">14:39:21</div><div class="pulse-dot-wrap"><div class="pulse-dot info" aria-hidden="true"></div></div><div class="pulse-msg">Evidence EV-2024-003 accessed by Analyst</div></div>
+              <div class="pulse-item"><div class="pulse-time">14:38:52</div><div class="pulse-dot-wrap"><div class="pulse-dot high" aria-hidden="true"></div></div><div class="pulse-msg">Case CX-1023 escalated by Sr. Analyst</div></div>
+              <div class="pulse-item"><div class="pulse-time">14:37:11</div><div class="pulse-dot-wrap"><div class="pulse-dot info" aria-hidden="true"></div></div><div class="pulse-msg">Login: Security Analyst from 192.168.1.x</div></div>
+            </div>
+          </div>
+        </div>
 
-  // ── THREAT TICKER (Refined Executive Typography) ───────────────
-  (function(){
-    const feeds = [
-      '🔴 CRITICAL: SBI Cyrillic homoglyph campaign active — 185.220.101.5 [Tor Exit, Russia] — CERT-In IOC-2026-091',
-      '⚠ WARN: CEO BEC wave targeting Indian PSUs — ProtonMail relay via 185.156.73.44 [Switzerland VPN]',
-      '📷 QUISHING: GST portal QR phishing — gst-itc-verify.xyz registered 3 days ago — 45.142.122.18',
-      '🔴 HIGH: Income Tax refund advance-fee scam — Selectel relay [St. Petersburg] — I4C 1930 escalation active',
-      '⚠ WARN: WormGPT-authored BEC detected — burstiness 1.8 — GenAI fingerprint confirmed by MailSentry NLP engine',
-      '🟢 SAFE: Baseline corporate email cleared — SPF PASS | DKIM PASS | DMARC PASS — no action required',
-      '🔴 CRITICAL: STRAD anomaly — Moscow→Amsterdam→Mumbai in 0ms — physical relay masquerade confirmed',
-      '⚠ WARN: Display-name spoofing — "State Bank of India" from non-sbi domain — DMARC REJECT policy triggered',
-      '📋 IOC: Syndicate Jamtara-FinBank-2026 linked to 3 fresh campaigns — BGP blackhole initiated',
-      '🔴 CRITICAL: DKIM signature forged — cryptographic hash mismatch — chain-of-custody block sealed #BSA2023',
-    ];
-    const track = document.getElementById('ticker-track');
-    if(!track) return;
-    const joined = feeds.concat(feeds).map(f =>
-      `<span style="margin-right:70px; font-size:0.7rem; font-family:'Inter',sans-serif; font-weight:500; color:rgba(226,232,240,0.85); letter-spacing:0.01em;">${f}</span>`
-    ).join('');
-    track.innerHTML = joined;
-  })();
-  </script>
-  <style>
-  @keyframes ticker-scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  </style>
+        <!-- Risk Thresholds -->
+        <div class="card" style="grid-column:1/-1;">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i><span>Risk Threshold Configuration</span></div></div>
+          <div class="card-body">
+            <div class="grid-2" style="gap:12px;">
+              <div>
+                <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:6px;">CRITICAL threshold (default: 85)</label>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <input type="range" min="70" max="99" value="85" style="flex:1; accent-color:var(--sev-critical);" id="threshold-critical" aria-label="Critical threshold slider">
+                  <span style="font-family:var(--font-mono); font-size:0.82rem; min-width:28px;" id="threshold-critical-val">85</span>
+                </div>
+              </div>
+              <div>
+                <label style="font-size:0.72rem; color:var(--text-muted); display:block; margin-bottom:6px;">HIGH threshold (default: 65)</label>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <input type="range" min="50" max="84" value="65" style="flex:1; accent-color:var(--sev-high);" id="threshold-high" aria-label="High threshold slider">
+                  <span style="font-family:var(--font-mono); font-size:0.82rem; min-width:28px;" id="threshold-high-val">65</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile Sidebar Overlay -->
+<div id="sidebar-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:150; backdrop-filter:blur(4px);" aria-hidden="true"></div>
+
+<!-- ── SCRIPTS ──────────────────────────────────────────────────────────── -->
+
+<!-- External Libraries -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<!-- Existing Analysis Engines (preserved) -->
+<script src="js/engines/parser.js"></script>
+<script src="js/engines/header-engine.js"></script>
+<script src="js/engines/nlp-engine.js"></script>
+<script src="js/engines/domain-engine.js"></script>
+<script src="js/engines/geo-engine.js"></script>
+<script src="js/engines/graph-engine.js"></script>
+<script src="js/engines/scoring-engine.js"></script>
+<script src="js/utils/audio.js"></script>
+<script src="js/utils/storage.js"></script>
+
+<!-- Demo Data -->
+<script src="js/demo-data/cases.js"></script>
+<script src="js/demo-data/campaigns.js"></script>
+
+<!-- Components -->
+<script src="js/components/command-palette.js"></script>
+<script src="js/components/report-builder.js"></script>
+
+<!-- Main App Controller -->
+<script src="js/app.js"></script>
+
 </body>
 </html>

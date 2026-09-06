@@ -1,30 +1,28 @@
 version: '3.8'
 
 services:
-  mailsentry-soc:
+  cyber-constellation:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mailsentry-production-node
-    restart: always
+    container_name: cyber_constellation_prod
+    restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - HOST=0.0.0.0
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 1024M
-        reservations:
-          cpus: '0.5'
-          memory: 256M
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+    env_file:
+      - ./server/.env
     security_opt:
       - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

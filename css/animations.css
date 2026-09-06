@@ -1,90 +1,259 @@
 /* ==========================================================================
-   MailSentry AI — Executive Micro-Animations & Tactile Transitions
-   Sleek, fluid transitions inspired by Apple / Stripe Dark Interfaces.
+   CYBER CONSTELLATION — Motion System
+   Professional, purposeful animation. Respects prefers-reduced-motion.
    ========================================================================== */
 
-/* ── SOFT STATUS PULSES ───────────────────────────────────────── */
-@keyframes pulse-green {
-  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-  70%  { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+/* ── KEYFRAMES ─────────────────────────────────────────────────────────── */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-@keyframes pulse-red {
-  0%   { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.6); }
-  70%  { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
-@keyframes pulse-amber {
-  0%   { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
-  70%  { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ── SMOOTH ENTRANCE ANIMATIONS ───────────────────────────────── */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── PULSE ──────────────────────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); opacity: 0.7; }
+  70%  { transform: scale(1.6);  opacity: 0; }
+  100% { transform: scale(0.95); opacity: 0; }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── INTELLIGENCE NODE ──────────────────────────────────────────────────── */
+@keyframes node-appear {
+  0%   { opacity: 0; transform: scale(0) translateY(10px); }
+  60%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79,156,249,0.3); }
+  50%       { box-shadow: 0 0 0 8px rgba(79,156,249,0); }
+}
+
+@keyframes edge-draw {
+  from { stroke-dashoffset: 100%; }
+  to   { stroke-dashoffset: 0%; }
+}
+
+/* ── INVESTIGATION PIPELINE ─────────────────────────────────────────────── */
+@keyframes step-activate {
+  0%   { background: transparent; }
+  30%  { background: rgba(79,156,249,0.12); }
+  100% { background: rgba(79,156,249,0.06); }
+}
+
+@keyframes step-complete {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes scan-line {
+  from { top: 0%; opacity: 1; }
+  to   { top: 100%; opacity: 0.3; }
+}
+
+/* ── THREAT SCORE ───────────────────────────────────────────────────────── */
+@keyframes score-count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gauge-fill {
+  from { stroke-dashoffset: 427; }
+}
+
+@keyframes critical-flash {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,71,87,0); }
+  50%       { box-shadow: 0 0 20px 4px rgba(255,71,87,0.25); }
+}
+
+/* ── LANDING CONSTELLATION ──────────────────────────────────────────────── */
+@keyframes constellation-orbit {
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.3); }
+}
+
+/* ── MAP & GEO ──────────────────────────────────────────────────────────── */
+@keyframes path-draw {
+  from { stroke-dashoffset: 1000; opacity: 0; }
+  to   { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes location-ping {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── RELAY CHAIN ────────────────────────────────────────────────────────── */
+@keyframes relay-appear {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes data-packet {
+  0%   { top: 0%; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── EVIDENCE ───────────────────────────────────────────────────────────── */
+@keyframes evidence-lock {
+  0%   { transform: rotate(-10deg); }
+  50%  { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes hash-reveal {
+  from { opacity: 0; letter-spacing: 0.3em; }
+  to   { opacity: 1; letter-spacing: normal; }
+}
+
+/* ── LOADING ────────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ── UTILITY ANIMATION CLASSES ─────────────────────────────────────────── */
+.animate-fade-in       { animation: fade-in 0.3s var(--ease-out) both; }
+.animate-slide-up      { animation: slide-in-up 0.35s var(--ease-out) both; }
+.animate-scale-in      { animation: scale-in 0.25s var(--ease-out) both; }
+.animate-node          { animation: node-appear 0.45s var(--ease-out) both; }
+.animate-relay         { animation: relay-appear 0.3s var(--ease-out) both; }
+.animate-pulse-node    { animation: node-pulse 2s ease infinite; }
+.animate-critical      { animation: critical-flash 2s ease infinite; }
+
+/* Staggered children */
+.stagger-children > * { animation-fill-mode: both; }
+.stagger-children > *:nth-child(1)  { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2)  { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3)  { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4)  { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5)  { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6)  { animation-delay: 400ms; }
+.stagger-children > *:nth-child(7)  { animation-delay: 480ms; }
+.stagger-children > *:nth-child(8)  { animation-delay: 560ms; }
+
+/* Landing stars canvas overlay */
+.stars-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Rotating ring on landing */
+.orbit-ring {
+  position: absolute;
+  border: 1px solid rgba(79,156,249,0.12);
+  border-radius: 50%;
+  animation: spin 30s linear infinite;
+}
+
+/* Data flowing animation on relay */
+.data-packet {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  left: calc(50% - 2px);
+  animation: data-packet 2s ease-in-out infinite;
+}
+
+/* Scanning animation overlay */
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(79,156,249,0.4), transparent);
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+/* Node ring pulse */
+.node-ring {
+  position: absolute;
+  inset: -8px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: pulse-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+
+/* ── REDUCED MOTION ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.fade-in {
-  animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* ── TOAST ENTER & EXIT ───────────────────────────────────────── */
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes toast-out {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(12px) scale(0.96);
-  }
-}
-
-/* ── ROTATING SPINNER ─────────────────────────────────────────── */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.spinner {
-  animation: spin 1s linear infinite;
-  display: inline-block;
-}
-
-/* ── PACKET PULSE ON GEOMAP ───────────────────────────────────── */
-@keyframes packet-pulse {
-  0%   { opacity: 1; transform: scale(0.6); }
-  70%  { opacity: 0.6; transform: scale(1.3); }
-  100% { opacity: 0; transform: scale(1.8); }
-}
-
-.packet-pulse {
-  animation: packet-pulse 1.8s ease-out infinite;
-}
-
-/* ── TICKER SCROLL ────────────────────────────────────────────── */
-@keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  .orbit-ring { animation: none; }
+  .data-packet { animation: none; }
+  .scan-line { animation: none; }
+  .node-ring { animation: none; }
+  .status-dot { animation: none; }
+  .animate-pulse-node { animation: none; }
+  .animate-critical { animation: none; }
+  .float-node { animation: none; }
 }
